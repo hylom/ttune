@@ -13,9 +13,6 @@ class Document: NSPersistentDocument {
     override init() {
         super.init()
         // Add your subclass-specific initialization here.
-        //let content = NSEntityDescription.insertNewObjectForEntityForName("Content", inManagedObjectContext: self.managedObjectContext!)
-        //content.setValue("foo", forKey: "title")
-        //content.setValue("bar", forKey: "path")
     }
 
     override func windowControllerDidLoadNib(aController: NSWindowController) {

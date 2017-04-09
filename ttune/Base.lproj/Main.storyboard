@@ -796,11 +796,7 @@
                 <customObject id="2Tp-Fl-jBw" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
                 <arrayController mode="entity" entityName="Content" automaticallyPreparesContent="YES" id="oE2-K2-a09">
                     <connections>
-                        <binding destination="5gI-5U-AMq" name="managedObjectContext" keyPath="representedObject.managedObjectContext" id="xIc-Ca-IiV">
-                            <dictionary key="options">
-                                <bool key="NSRaisesForNotApplicableKeys" value="NO"/>
-                            </dictionary>
-                        </binding>
+                        <binding destination="5gI-5U-AMq" name="managedObjectContext" keyPath="representedObject.managedObjectContext" id="qlz-Z3-k1i"/>
                     </connections>
                 </arrayController>
                 <userDefaultsController representsSharedInstance="YES" id="Oep-la-t4J"/>
