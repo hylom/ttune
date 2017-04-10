@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		EF93A8501E9BE3FD00EA0A3D /* TTUContentMO.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF93A84F1E9BE3FD00EA0A3D /* TTUContentMO.swift */; };
 		EFF79E331E99353E00513BC7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFF79E321E99353E00513BC7 /* AppDelegate.swift */; };
 		EFF79E351E99353E00513BC7 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFF79E341E99353E00513BC7 /* ViewController.swift */; };
 		EFF79E371E99353E00513BC7 /* Document.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFF79E361E99353E00513BC7 /* Document.swift */; };
@@ -35,6 +36,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		EF93A84F1E9BE3FD00EA0A3D /* TTUContentMO.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TTUContentMO.swift; path = ../TTUContentMO.swift; sourceTree = "<group>"; };
 		EFF79E2F1E99353E00513BC7 /* ttune.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ttune.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EFF79E321E99353E00513BC7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		EFF79E341E99353E00513BC7 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -99,6 +101,7 @@
 		EFF79E311E99353E00513BC7 /* ttune */ = {
 			isa = PBXGroup;
 			children = (
+				EF93A84F1E9BE3FD00EA0A3D /* TTUContentMO.swift */,
 				EFF79E321E99353E00513BC7 /* AppDelegate.swift */,
 				EFF79E341E99353E00513BC7 /* ViewController.swift */,
 				EFF79E361E99353E00513BC7 /* Document.swift */,
@@ -258,6 +261,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EF93A8501E9BE3FD00EA0A3D /* TTUContentMO.swift in Sources */,
 				EFF79E3A1E99353E00513BC7 /* Document.xcdatamodeld in Sources */,
 				EFF79E351E99353E00513BC7 /* ViewController.swift in Sources */,
 				EFF79E331E99353E00513BC7 /* AppDelegate.swift in Sources */,
@@ -483,6 +487,7 @@
 				EFF79E5B1E99353E00513BC7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		EFF79E5C1E99353E00513BC7 /* Build configuration list for PBXNativeTarget "ttuneTests" */ = {
 			isa = XCConfigurationList;
@@ -491,6 +496,7 @@
 				EFF79E5E1E99353E00513BC7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		EFF79E5F1E99353E00513BC7 /* Build configuration list for PBXNativeTarget "ttuneUITests" */ = {
 			isa = XCConfigurationList;
@@ -499,6 +505,7 @@
 				EFF79E611E99353E00513BC7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 

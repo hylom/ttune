@@ -30,6 +30,7 @@ class Document: NSPersistentDocument {
         let windowController = storyboard.instantiateControllerWithIdentifier("Document Window Controller") as! NSWindowController
         self.addWindowController(windowController)
         windowController.contentViewController!.representedObject = windowController.document
+
     }
 
 }

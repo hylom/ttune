@@ -708,6 +708,9 @@
                                                                         <font key="font" metaFont="system"/>
                                                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                                        <connections>
+                                                                            <binding destination="LMN-WS-Exa" name="value" keyPath="objectValue.title" id="3SE-GE-M60"/>
+                                                                        </connections>
                                                                     </textFieldCell>
                                                                 </textField>
                                                             </subviews>
@@ -716,9 +719,6 @@
                                                             </connections>
                                                         </tableCellView>
                                                     </prototypeCellViews>
-                                                    <connections>
-                                                        <binding destination="oE2-K2-a09" name="value" keyPath="arrangedObjects.title" id="9GX-OQ-9WJ"/>
-                                                    </connections>
                                                 </tableColumn>
                                                 <tableColumn width="316" minWidth="40" maxWidth="1000" id="vbU-6N-xfd">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" title="path">
@@ -743,6 +743,9 @@
                                                                         <font key="font" metaFont="system"/>
                                                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                                        <connections>
+                                                                            <binding destination="lLU-OX-MAI" name="value" keyPath="objectValue.path" id="Wax-qo-hGt"/>
+                                                                        </connections>
                                                                     </textFieldCell>
                                                                 </textField>
                                                             </subviews>
@@ -751,12 +754,10 @@
                                                             </connections>
                                                         </tableCellView>
                                                     </prototypeCellViews>
-                                                    <connections>
-                                                        <binding destination="oE2-K2-a09" name="value" keyPath="arrangedObjects.path" id="m6x-zw-zq1"/>
-                                                    </connections>
                                                 </tableColumn>
                                             </tableColumns>
                                             <connections>
+                                                <binding destination="oE2-K2-a09" name="content" keyPath="arrangedObjects" id="LW1-qH-Pbs"/>
                                                 <outlet property="dataSource" destination="5gI-5U-AMq" id="CRV-j4-JfE"/>
                                                 <outlet property="delegate" destination="5gI-5U-AMq" id="rg8-ZT-sTw"/>
                                             </connections>
@@ -791,6 +792,7 @@
                     </view>
                     <connections>
                         <outlet property="contentTableView" destination="BZW-Fs-b4f" id="hqb-cW-NKj"/>
+                        <outlet property="contentTableViewController" destination="oE2-K2-a09" id="OKG-ka-XG2"/>
                     </connections>
                 </viewController>
                 <customObject id="2Tp-Fl-jBw" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
