@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		EF5592021EA5169500E3616B /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF5592011EA5169500E3616B /* AVFoundation.framework */; };
 		EF93A8501E9BE3FD00EA0A3D /* TTUContentMO.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF93A84F1E9BE3FD00EA0A3D /* TTUContentMO.swift */; };
 		EFF79E331E99353E00513BC7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFF79E321E99353E00513BC7 /* AppDelegate.swift */; };
 		EFF79E351E99353E00513BC7 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFF79E341E99353E00513BC7 /* ViewController.swift */; };
@@ -36,6 +37,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		EF5592011EA5169500E3616B /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		EF93A84F1E9BE3FD00EA0A3D /* TTUContentMO.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TTUContentMO.swift; path = ../TTUContentMO.swift; sourceTree = "<group>"; };
 		EFF79E2F1E99353E00513BC7 /* ttune.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ttune.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EFF79E321E99353E00513BC7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -58,6 +60,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EF5592021EA5169500E3616B /* AVFoundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -81,6 +84,7 @@
 		EFF79E261E99353E00513BC7 = {
 			isa = PBXGroup;
 			children = (
+				EF5592011EA5169500E3616B /* AVFoundation.framework */,
 				EFF79E311E99353E00513BC7 /* ttune */,
 				EFF79E481E99353E00513BC7 /* ttuneTests */,
 				EFF79E531E99353E00513BC7 /* ttuneUITests */,
