@@ -757,8 +757,8 @@
                                                 </tableColumn>
                                             </tableColumns>
                                             <connections>
-                                                <action selector="selectContent:" target="5gI-5U-AMq" id="aqS-sd-pIo"/>
                                                 <binding destination="oE2-K2-a09" name="content" keyPath="arrangedObjects" id="LW1-qH-Pbs"/>
+                                                <binding destination="oE2-K2-a09" name="selectionIndexes" keyPath="selectionIndexes" previousBinding="LW1-qH-Pbs" id="qqv-Xb-vNy"/>
                                                 <outlet property="dataSource" destination="5gI-5U-AMq" id="CRV-j4-JfE"/>
                                                 <outlet property="delegate" destination="5gI-5U-AMq" id="rg8-ZT-sTw"/>
                                             </connections>

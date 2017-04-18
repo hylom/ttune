@@ -72,10 +72,12 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSour
                 playing = contents.first as? TTUContentMO
             }
         }
+        /*
         if let p = playing {
-            let path = p.path
-            print("selected: \(path)")
+            let title = p.title
+            print("selected: \(title)")
         }
+        */
     }
     
     func tableView(tableView: NSTableView, validateDrop info: NSDraggingInfo, proposedRow row: Int, proposedDropOperation dropOperation: NSTableViewDropOperation) -> NSDragOperation {
@@ -91,7 +93,7 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSour
             for item in files! {
                 //print("drop: \(item)")
                 let content     = NSEntityDescription.insertNewObjectForEntityForName("Content", inManagedObjectContext: moc) as! TTUContentMO
-                content.title = item
+                content.title = (item as NSString).lastPathComponent
                 content.path = item
             }
             return true
