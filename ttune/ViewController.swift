@@ -93,12 +93,28 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSour
             for item in files! {
                 //print("drop: \(item)")
                 let content     = NSEntityDescription.insertNewObjectForEntityForName("Content", inManagedObjectContext: moc) as! TTUContentMO
-                content.title = (item as NSString).lastPathComponent
                 content.path = item
+
+                let metadatas = metadatasFromURL(item)
+                for metadata in metadatas {
+                    if metadata.commonKey == "title" {
+                        content.title = metadata.value as? String
+                    }
+                }
+                if (content.title == nil) {
+                    content.title = (item as NSString).lastPathComponent
+                }
             }
             return true
         }
         return false
+    }
+    
+    // get metadata from URL
+    func metadatasFromURL(pathString: String) -> [AVMetadataItem] {
+        let url = NSURL(fileURLWithPath: pathString)
+        let asset = AVAsset(URL: url)
+        return asset.commonMetadata
     }
 }
 
