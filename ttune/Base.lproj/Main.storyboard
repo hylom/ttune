@@ -680,7 +680,7 @@
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" headerView="Ld2-TI-uUG" viewBased="YES" id="BZW-Fs-b4f">
-                                            <rect key="frame" x="0.0" y="0.0" width="641" height="231"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="641" height="0.0"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <size key="intercellSpacing" width="3" height="2"/>
                                             <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -793,6 +793,10 @@
                                     <action selector="togglePlayPause:" target="5gI-5U-AMq" id="H44-Iu-XQL"/>
                                 </connections>
                             </button>
+                            <customView id="xhJ-Lt-wNq" customClass="TTUScreenView" customModule="ttune" customModuleProvider="target">
+                                <rect key="frame" x="168" y="284" width="344" height="31"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            </customView>
                         </subviews>
                     </view>
                     <connections>
