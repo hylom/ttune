@@ -803,6 +803,7 @@
                         <outlet property="buttonPlayPause" destination="FRr-DZ-N11" id="gU7-L3-BjV"/>
                         <outlet property="contentTableView" destination="BZW-Fs-b4f" id="hqb-cW-NKj"/>
                         <outlet property="contentTableViewController" destination="oE2-K2-a09" id="OKG-ka-XG2"/>
+                        <outlet property="screenView" destination="xhJ-Lt-wNq" id="7g5-0b-5AS"/>
                     </connections>
                 </viewController>
                 <customObject id="2Tp-Fl-jBw" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>

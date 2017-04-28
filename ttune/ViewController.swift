@@ -15,7 +15,8 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSour
     @IBOutlet var contentTableViewController: NSArrayController!
     @IBOutlet weak var contentTableView: NSTableView!
     @IBOutlet weak var buttonPlayPause: NSButton!
-
+    @IBOutlet weak var screenView: TTUScreenView!
+    
     var isPlaying: Bool = false
     var playing: TTUContentMO? = nil
     var player = AVAudioPlayer()
@@ -70,6 +71,7 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSour
         if let contents = contentTableViewController.selectedObjects {
             if contents.count == 1 {
                 playing = contents.first as? TTUContentMO
+                screenView.setTuneInfo(playing!)
             }
         }
         /*

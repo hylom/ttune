@@ -10,8 +10,8 @@ import Cocoa
 import Foundation
 
 class TTUScreenView: NSView {
-    var title: String!
-    
+    @IBOutlet weak var titleLabel: NSTextFieldCell!
+
     override init(frame frameRect: NSRect) {
         super.init(frame: frameRect)
         initialize()
@@ -21,24 +21,27 @@ class TTUScreenView: NSView {
         super.init(coder: coder)
         initialize()
     }
-
+    
     private func initialize() {
-        self.title = "foobar"
         if let theView = self.loadFromNib() {
             theView.frame = self.bounds
             self.addSubview(theView)
         }
     }
+    
+    func setTuneInfo(content: TTUContentMO) {
+        if let t = content.title {
+            titleLabel.title = t
+        }
+    }
 
-    private func loadFromNib() -> TTUScreenView? {
+    private func loadFromNib() -> NSView? {
         var topLevelObjects:NSArray?
         let bundle = NSBundle.mainBundle()
-        if bundle.loadNibNamed("TTUScreenView", owner: nil, topLevelObjects: &topLevelObjects) {
-        //let nib = NSNib(nibNamed: "TTUScreenView", bundle: bundle)
-        //if nib!.instantiateWithOwner(self, topLevelObjects: &topLevelObjects) {
+        if bundle.loadNibNamed("TTUScreenView", owner: self, topLevelObjects: &topLevelObjects) {
             for obj in topLevelObjects! {
                 if obj.isKindOfClass(NSView) {
-                    return obj as? TTUScreenView
+                    return obj as? NSView
                 }
             }
         }
@@ -46,10 +49,10 @@ class TTUScreenView: NSView {
     }
     
     override func drawRect(dirtyRect: NSRect) {
+        NSColor(red: 255, green: 255, blue: 255, alpha: 50).setFill()
+        NSRectFill(dirtyRect)
+/*
         if ((self.title) != nil) {
-            NSColor(red: 255, green: 255, blue: 255, alpha: 50).setFill()
-            NSRectFill(dirtyRect)
-
             let font = NSFont(name: "Helvetica", size: 12)
             let style = NSMutableParagraphStyle()
             style.alignment = NSTextAlignment.Center
@@ -63,5 +66,6 @@ class TTUScreenView: NSView {
             attrString.drawInRect(rect)
             
         }
+*/      
     }
 }
