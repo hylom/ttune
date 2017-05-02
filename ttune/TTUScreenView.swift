@@ -13,7 +13,6 @@ import AVFoundation
 class TTUScreenView: NSView {
     dynamic var title = ""
     dynamic var duration = ""
-    var player = AVAudioPlayer()
 
     override init(frame frameRect: NSRect) {
         super.init(frame: frameRect)
@@ -43,9 +42,6 @@ class TTUScreenView: NSView {
             }
         }
         return nil
-    }
-    
-    func play() {
     }
     
     override func drawRect(dirtyRect: NSRect) {

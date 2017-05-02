@@ -669,18 +669,18 @@
             <objects>
                 <viewController id="5gI-5U-AMq" customClass="ViewController" customModule="ttune" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="ERx-hH-rdd">
-                        <rect key="frame" x="0.0" y="0.0" width="683" height="330"/>
+                        <rect key="frame" x="0.0" y="0.0" width="919" height="330"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <scrollView autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" id="Qe6-gb-a6r">
-                                <rect key="frame" x="20" y="20" width="643" height="249"/>
+                                <rect key="frame" x="20" y="20" width="879" height="261"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <clipView key="contentView" id="LqU-Lv-mG0">
-                                    <rect key="frame" x="1" y="17" width="641" height="231"/>
+                                    <rect key="frame" x="1" y="17" width="877" height="243"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" headerView="Ld2-TI-uUG" viewBased="YES" id="BZW-Fs-b4f">
-                                            <rect key="frame" x="0.0" y="0.0" width="641" height="0.0"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="877" height="243"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <size key="intercellSpacing" width="3" height="2"/>
                                             <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -722,7 +722,7 @@
                                                         </tableCellView>
                                                     </prototypeCellViews>
                                                 </tableColumn>
-                                                <tableColumn width="519" minWidth="40" maxWidth="1000" id="vbU-6N-xfd">
+                                                <tableColumn width="755" minWidth="40" maxWidth="1000" id="vbU-6N-xfd">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" title="path">
                                                         <font key="font" metaFont="smallSystem"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -736,11 +736,11 @@
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                     <prototypeCellViews>
                                                         <tableCellView id="lLU-OX-MAI">
-                                                            <rect key="frame" x="120" y="1" width="519" height="17"/>
+                                                            <rect key="frame" x="120" y="1" width="755" height="17"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
                                                                 <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" id="BJw-Hk-OPC">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="519" height="17"/>
+                                                                    <rect key="frame" x="0.0" y="0.0" width="755" height="17"/>
                                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                     <textFieldCell key="cell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" title="new path" id="GLe-xq-s5Y">
                                                                         <font key="font" metaFont="system"/>
@@ -778,32 +778,46 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                                 <tableHeaderView key="headerView" id="Ld2-TI-uUG">
-                                    <rect key="frame" x="0.0" y="0.0" width="641" height="17"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="877" height="17"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </tableHeaderView>
                             </scrollView>
-                            <button verticalHuggingPriority="750" id="FRr-DZ-N11">
-                                <rect key="frame" x="14" y="282" width="82" height="32"/>
+                            <slider verticalHuggingPriority="750" id="8Hu-jh-zLC">
+                                <rect key="frame" x="185" y="294" width="96" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <buttonCell key="cell" type="push" title="Play" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="K69-GF-u9e">
+                                <sliderCell key="cell" continuous="YES" state="on" alignment="left" maxValue="100" doubleValue="100" tickMarkPosition="above" sliderType="linear" id="SsD-Cg-d7M">
+                                    <connections>
+                                        <action selector="changeVolume:" target="5gI-5U-AMq" id="gHQ-BK-Igz"/>
+                                    </connections>
+                                </sliderCell>
+                            </slider>
+                            <customView id="xhJ-Lt-wNq" customClass="TTUScreenView" customModule="ttune" customModuleProvider="target">
+                                <rect key="frame" x="287" y="289" width="344" height="32"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                            </customView>
+                            <button id="cR3-OP-eJs">
+                                <rect key="frame" x="81" y="290" width="32" height="31"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="play" imagePosition="only" alignment="center" alternateImage="pause" imageScaling="proportionallyUpOrDown" inset="2" id="Xw3-IA-aix">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
+                                    <connections>
+                                        <action selector="togglePlayState:" target="5gI-5U-AMq" id="vRG-WU-niI"/>
+                                        <binding destination="5gI-5U-AMq" name="value" keyPath="isPlaying" id="XkM-E9-yH5">
+                                            <dictionary key="options">
+                                                <bool key="NSAllowsEditingMultipleValuesSelection" value="NO"/>
+                                            </dictionary>
+                                        </binding>
+                                    </connections>
                                 </buttonCell>
-                                <connections>
-                                    <action selector="togglePlayPause:" target="5gI-5U-AMq" id="H44-Iu-XQL"/>
-                                </connections>
                             </button>
-                            <customView id="xhJ-Lt-wNq" customClass="TTUScreenView" customModule="ttune" customModuleProvider="target">
-                                <rect key="frame" x="168" y="284" width="344" height="31"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                            </customView>
                         </subviews>
                     </view>
                     <connections>
-                        <outlet property="buttonPlayPause" destination="FRr-DZ-N11" id="gU7-L3-BjV"/>
                         <outlet property="contentTableView" destination="BZW-Fs-b4f" id="hqb-cW-NKj"/>
                         <outlet property="contentTableViewController" destination="oE2-K2-a09" id="OKG-ka-XG2"/>
                         <outlet property="screenView" destination="xhJ-Lt-wNq" id="7g5-0b-5AS"/>
+                        <outlet property="volumeSlider" destination="SsD-Cg-d7M" id="pmJ-iA-coI"/>
                     </connections>
                 </viewController>
                 <customObject id="2Tp-Fl-jBw" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
@@ -814,7 +828,11 @@
                 </arrayController>
                 <userDefaultsController representsSharedInstance="YES" id="Oep-la-t4J"/>
             </objects>
-            <point key="canvasLocation" x="176.5" y="685"/>
+            <point key="canvasLocation" x="58.5" y="685"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="pause" width="32" height="32"/>
+        <image name="play" width="32" height="32"/>
+    </resources>
 </document>

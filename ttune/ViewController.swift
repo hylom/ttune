@@ -14,38 +14,28 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSour
     
     @IBOutlet var contentTableViewController: NSArrayController!
     @IBOutlet weak var contentTableView: NSTableView!
-    @IBOutlet weak var buttonPlayPause: NSButton!
     @IBOutlet weak var screenView: TTUScreenView!
-    
-    var isPlaying: Bool = false
+    @IBOutlet weak var volumeSlider: NSSliderCell!
+
+    dynamic var isPlaying: Bool = false
     var playing: TTUContentMO? = nil
     var timer: NSTimer? = nil
+    var player: AVAudioPlayer?
+    
+    override var representedObject: AnyObject? {
+        didSet {
+            // Update the view, if already loaded.
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         // Do any additional setup after loading the view.
         contentTableView.registerForDraggedTypes([NSFilenamesPboardType])
         isPlaying = false
-
-    }
-
-    // UI actions
-    
-    @IBAction func togglePlayPause(sender: AnyObject) {
-        if (isPlaying) {
-            // pause
-            screenView.player.stop()
-            isPlaying = false
-            buttonPlayPause.title = "play"
-        } else {
-            // play
-            screenView.player.play()
-            isPlaying = true
-            buttonPlayPause.title = "stop"
-            timer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: "updateTime", userInfo: nil, repeats: true)
-        }
         
+        timer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: "updateTime", userInfo: nil, repeats: true)
     }
     
     func updateTime() {
@@ -53,17 +43,48 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSour
         formatter.unitsStyle = .Positional
         formatter.zeroFormattingBehavior = .Pad
         formatter.allowedUnits = [.Minute, .Second]
-        self.screenView.duration = formatter.stringFromTimeInterval(self.screenView.player.currentTime)!
-    }
-    
-    override var representedObject: AnyObject? {
-        didSet {
-        // Update the view, if already loaded.
+        if let p = self.player {
+            self.screenView.duration = formatter.stringFromTimeInterval(p.currentTime)!
+        } else {
+            self.screenView.duration = formatter.stringFromTimeInterval(0.0)!
         }
     }
-
-    // tableView delegates
     
+    private func initPlayer() {
+        if let p = self.player {
+            p.volume = volumeSlider.floatValue / 100.0
+        }
+    }
+    
+    private func metadatasFromURL(pathString: String) -> [AVMetadataItem] {
+        let url = NSURL(fileURLWithPath: pathString)
+        let asset = AVAsset(URL: url)
+        return asset.commonMetadata
+    }
+
+    // UI actions
+    @IBAction func togglePlayState(sender: AnyObject) {
+        if let p = self.player {
+            if (isPlaying) {
+                // play
+                p.play()
+            } else {
+                // pause
+                p.stop()
+            }
+        } else {
+            isPlaying = false;
+        }
+        
+    }
+
+    @IBAction func changeVolume(sender: AnyObject) {
+        if let p = self.player {
+            p.volume = volumeSlider.floatValue / 100.0
+        }
+    }
+    
+    // tableView delegates
     func tableViewSelectionDidChange(notification: NSNotification) {
         if let contents = contentTableViewController.selectedObjects {
             if contents.count == 1 {
@@ -72,13 +93,12 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSour
                     screenView.title = p.title
                     let url = NSURL(fileURLWithPath: p.path)
                     do {
-                        try screenView.player = AVAudioPlayer(contentsOfURL: url)
-                        screenView.player.prepareToPlay()
-                        updateTime()
+                        try player = AVAudioPlayer(contentsOfURL: url)
+                        player!.prepareToPlay()
+                        initPlayer()
                     }
                     catch {
                         isPlaying = false
-                        buttonPlayPause.title = "play"
                     }
                     
                 }
@@ -114,11 +134,5 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSour
         return false
     }
     
-    // get metadata from URL
-    func metadatasFromURL(pathString: String) -> [AVMetadataItem] {
-        let url = NSURL(fileURLWithPath: pathString)
-        let asset = AVAsset(URL: url)
-        return asset.commonMetadata
-    }
 }
 
