@@ -19,7 +19,7 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSour
     
     var isPlaying: Bool = false
     var playing: TTUContentMO? = nil
-    var player = AVAudioPlayer()
+    var timer: NSTimer? = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,28 +35,25 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSour
     @IBAction func togglePlayPause(sender: AnyObject) {
         if (isPlaying) {
             // pause
-            player.stop()
+            screenView.player.stop()
             isPlaying = false
             buttonPlayPause.title = "play"
         } else {
             // play
-            if let path = playing!.path {
-                let url = NSURL(fileURLWithPath: path)
-                do {
-                    try player = AVAudioPlayer(contentsOfURL: url)
-                    player.prepareToPlay()
-                    player.play()
-                    isPlaying = true
-                    buttonPlayPause.title = "stop"
-                }
-                catch {
-                    isPlaying = false
-                    buttonPlayPause.title = "play"
-                }
-                
-            }
+            screenView.player.play()
+            isPlaying = true
+            buttonPlayPause.title = "stop"
+            timer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: "updateTime", userInfo: nil, repeats: true)
         }
         
+    }
+    
+    func updateTime() {
+        let formatter = NSDateComponentsFormatter()
+        formatter.unitsStyle = .Positional
+        formatter.zeroFormattingBehavior = .Pad
+        formatter.allowedUnits = [.Minute, .Second]
+        self.screenView.duration = formatter.stringFromTimeInterval(self.screenView.player.currentTime)!
     }
     
     override var representedObject: AnyObject? {
@@ -70,16 +67,23 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSour
     func tableViewSelectionDidChange(notification: NSNotification) {
         if let contents = contentTableViewController.selectedObjects {
             if contents.count == 1 {
-                playing = contents.first as? TTUContentMO
-                screenView.setTuneInfo(playing!)
+                if let p = contents.first as? TTUContentMO {
+                    playing = p
+                    screenView.title = p.title
+                    let url = NSURL(fileURLWithPath: p.path)
+                    do {
+                        try screenView.player = AVAudioPlayer(contentsOfURL: url)
+                        screenView.player.prepareToPlay()
+                        updateTime()
+                    }
+                    catch {
+                        isPlaying = false
+                        buttonPlayPause.title = "play"
+                    }
+                    
+                }
             }
         }
-        /*
-        if let p = playing {
-            let title = p.title
-            print("selected: \(title)")
-        }
-        */
     }
     
     func tableView(tableView: NSTableView, validateDrop info: NSDraggingInfo, proposedRow row: Int, proposedDropOperation dropOperation: NSTableViewDropOperation) -> NSDragOperation {
@@ -96,15 +100,13 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSour
                 //print("drop: \(item)")
                 let content     = NSEntityDescription.insertNewObjectForEntityForName("Content", inManagedObjectContext: moc) as! TTUContentMO
                 content.path = item
+                content.title = (item as NSString).lastPathComponent
 
                 let metadatas = metadatasFromURL(item)
                 for metadata in metadatas {
                     if metadata.commonKey == "title" {
-                        content.title = metadata.value as? String
+                        content.title = (metadata.value as? String)!
                     }
-                }
-                if (content.title == nil) {
-                    content.title = (item as NSString).lastPathComponent
                 }
             }
             return true

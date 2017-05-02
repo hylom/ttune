@@ -12,8 +12,8 @@ import Foundation
 
 class TTUContentMO: NSManagedObject {
     
-    @NSManaged var path: String?
-    @NSManaged var title: String?
+    @NSManaged var path: String
+    @NSManaged var title: String
     
     override func awakeFromInsert() {
         super.awakeFromInsert()

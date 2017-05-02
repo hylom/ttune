@@ -8,9 +8,12 @@
 
 import Cocoa
 import Foundation
+import AVFoundation
 
 class TTUScreenView: NSView {
-    @IBOutlet weak var titleLabel: NSTextFieldCell!
+    dynamic var title = ""
+    dynamic var duration = ""
+    var player = AVAudioPlayer()
 
     override init(frame frameRect: NSRect) {
         super.init(frame: frameRect)
@@ -29,12 +32,6 @@ class TTUScreenView: NSView {
         }
     }
     
-    func setTuneInfo(content: TTUContentMO) {
-        if let t = content.title {
-            titleLabel.title = t
-        }
-    }
-
     private func loadFromNib() -> NSView? {
         var topLevelObjects:NSArray?
         let bundle = NSBundle.mainBundle()
@@ -48,9 +45,14 @@ class TTUScreenView: NSView {
         return nil
     }
     
+    func play() {
+    }
+    
     override func drawRect(dirtyRect: NSRect) {
         NSColor(red: 255, green: 255, blue: 255, alpha: 50).setFill()
-        NSRectFill(dirtyRect)
+        // NSRectFill(dirtyRect)
+        let path = NSBezierPath(roundedRect: self.bounds, xRadius: 10.0, yRadius: 10.0)
+        path.fill()
 /*
         if ((self.title) != nil) {
             let font = NSFont(name: "Helvetica", size: 12)
