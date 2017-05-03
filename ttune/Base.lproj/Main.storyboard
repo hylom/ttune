@@ -680,7 +680,7 @@
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" headerView="Ld2-TI-uUG" viewBased="YES" id="BZW-Fs-b4f">
-                                            <rect key="frame" x="0.0" y="0.0" width="877" height="243"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="877" height="0.0"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <size key="intercellSpacing" width="3" height="2"/>
                                             <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -799,15 +799,11 @@
                                 <rect key="frame" x="81" y="290" width="32" height="31"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="play" imagePosition="only" alignment="center" alternateImage="pause" imageScaling="proportionallyUpOrDown" inset="2" id="Xw3-IA-aix">
-                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <behavior key="behavior" pushIn="YES" changeContents="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
                                     <connections>
                                         <action selector="togglePlayState:" target="5gI-5U-AMq" id="vRG-WU-niI"/>
-                                        <binding destination="5gI-5U-AMq" name="value" keyPath="isPlaying" id="XkM-E9-yH5">
-                                            <dictionary key="options">
-                                                <bool key="NSAllowsEditingMultipleValuesSelection" value="NO"/>
-                                            </dictionary>
-                                        </binding>
+                                        <binding destination="5gI-5U-AMq" name="value" keyPath="isPlaying" id="oFM-ga-AdJ"/>
                                     </connections>
                                 </buttonCell>
                             </button>
