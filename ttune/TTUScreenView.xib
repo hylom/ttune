@@ -20,13 +20,16 @@
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
                     <connections>
-                        <binding destination="-2" name="value" keyPath="title" id="km6-VI-gqP"/>
+                        <binding destination="-2" name="value" keyPath="title" id="Kkw-6F-0Sq"/>
                     </connections>
                 </textField>
                 <slider verticalHuggingPriority="750" id="eRA-NW-pFg">
                     <rect key="frame" x="0.0" y="228" width="480" height="21"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                     <sliderCell key="cell" state="on" alignment="left" maxValue="100" doubleValue="50" tickMarkPosition="above" sliderType="linear" id="fHt-dS-uJb"/>
+                    <connections>
+                        <binding destination="-2" name="value" keyPath="seekSliderPosition" id="6vy-wp-tAI"/>
+                    </connections>
                 </slider>
                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="QHH-4H-0gT">
                     <rect key="frame" x="419" y="255" width="61" height="17"/>

@@ -13,6 +13,7 @@ import AVFoundation
 class TTUScreenView: NSView {
     dynamic var title = ""
     dynamic var duration = ""
+    dynamic var seekSliderPosition = 0.0
 
     override init(frame frameRect: NSRect) {
         super.init(frame: frameRect)
