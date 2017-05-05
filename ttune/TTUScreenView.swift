@@ -46,7 +46,7 @@ class TTUScreenView: NSView {
     }
     
     override func drawRect(dirtyRect: NSRect) {
-        NSColor(red: 255, green: 255, blue: 255, alpha: 50).setFill()
+        NSColor(red: 248, green: 253, blue: 224, alpha: 100).setFill()
         // NSRectFill(dirtyRect)
         let path = NSBezierPath(roundedRect: self.bounds, xRadius: 10.0, yRadius: 10.0)
         path.fill()

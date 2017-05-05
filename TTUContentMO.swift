@@ -11,8 +11,12 @@ import CoreData
 import Foundation
 
 class TTUContentMO: NSManagedObject {
-    
+    @NSManaged var album: String
+    @NSManaged var albumArtist: String
+    @NSManaged var artist: String
+    @NSManaged var genre: String
     @NSManaged var path: String
+    @NSManaged var time: String
     @NSManaged var title: String
     
     override func awakeFromInsert() {

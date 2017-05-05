@@ -198,12 +198,41 @@ extension ViewController: NSTableViewDataSource {
             let moc = contentTableViewController.managedObjectContext!
             for item in files! {
                 //print("drop: \(item)")
-                let content     = NSEntityDescription.insertNewObjectForEntityForName("Content", inManagedObjectContext: moc) as! TTUContentMO
+                let content = NSEntityDescription.insertNewObjectForEntityForName("Content", inManagedObjectContext: moc) as! TTUContentMO
                 content.path = item
                 content.title = (item as NSString).lastPathComponent
                 
-                let metadatas = metadatasFromURL(item)
-                for metadata in metadatas {
+                let url = NSURL(fileURLWithPath: item)
+                let asset = AVAsset(URL: url)
+                //print(asset.duration)
+                //print(asset.preferredRate)
+
+                let formatter = NSDateComponentsFormatter()
+                formatter.unitsStyle = .Positional
+                formatter.zeroFormattingBehavior = .Pad
+                formatter.allowedUnits = [.Minute, .Second]
+                let totalSec = CMTimeGetSeconds(asset.duration)
+                if let t = formatter.stringFromTimeInterval(totalSec) {
+                    content.time = t
+                }
+
+                for metadata in asset.commonMetadata {
+                    //print(metadata.commonKey)
+                    if metadata.commonKey == "albumName" {
+                        content.album = (metadata.value as? String)!
+                    }
+                    if metadata.commonKey == "albumArtist" {
+                        content.albumArtist = (metadata.value as? String)!
+                    }
+                    if metadata.commonKey == "artist" {
+                        content.artist = (metadata.value as? String)!
+                    }
+                    if metadata.commonKey == "genre" {
+                        content.genre = (metadata.value as? String)!
+                    }
+                    if metadata.commonKey == "time" {
+                        content.time = (metadata.value as? String)!
+                    }
                     if metadata.commonKey == "title" {
                         content.title = (metadata.value as? String)!
                     }

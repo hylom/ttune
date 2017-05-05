@@ -8,11 +8,11 @@
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <customView id="c22-O7-iKe">
-            <rect key="frame" x="0.0" y="0.0" width="480" height="272"/>
+            <rect key="frame" x="0.0" y="0.0" width="480" height="55"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="mVx-x1-jSj">
-                    <rect key="frame" x="0.0" y="255" width="480" height="17"/>
+                    <rect key="frame" x="0.0" y="38" width="480" height="17"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="Label" id="pN2-OV-o4j">
                         <font key="font" metaFont="system"/>
@@ -24,7 +24,7 @@
                     </connections>
                 </textField>
                 <slider verticalHuggingPriority="750" id="eRA-NW-pFg">
-                    <rect key="frame" x="0.0" y="228" width="480" height="21"/>
+                    <rect key="frame" x="9" y="1" width="462" height="21"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                     <sliderCell key="cell" state="on" alignment="left" maxValue="100" doubleValue="50" tickMarkPosition="above" sliderType="linear" id="fHt-dS-uJb"/>
                     <connections>
@@ -32,7 +32,7 @@
                     </connections>
                 </slider>
                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="QHH-4H-0gT">
-                    <rect key="frame" x="419" y="255" width="61" height="17"/>
+                    <rect key="frame" x="419" y="38" width="61" height="17"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Label" id="YaC-0C-KlJ">
                         <font key="font" metaFont="system"/>
@@ -44,6 +44,7 @@
                     </connections>
                 </textField>
             </subviews>
+            <point key="canvasLocation" x="522" y="477.5"/>
         </customView>
     </objects>
 </document>
