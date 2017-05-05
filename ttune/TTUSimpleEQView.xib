@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="9532" systemVersion="14F2315" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" customObjectInstantitationMethod="direct">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="9532"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="TTUSimpleEQView" customModule="ttune" customModuleProvider="target"/>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <customView id="c22-O7-iKe">
+            <rect key="frame" x="0.0" y="0.0" width="323" height="55"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+            <subviews>
+                <slider verticalHuggingPriority="750" id="NfK-uR-GMA" userLabel="BassEQ">
+                    <rect key="frame" x="0.0" y="31" width="323" height="27"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                    <sliderCell key="cell" continuous="YES" state="on" alignment="left" minValue="-12" maxValue="12" tickMarkPosition="below" numberOfTickMarks="1" sliderType="linear" id="Y38-ka-DS4"/>
+                    <connections>
+                        <action selector="changeBassEQ:" target="-2" id="Y3g-nc-I4S"/>
+                        <binding destination="-2" name="value" keyPath="bassEQ" id="uMJ-RX-2MJ"/>
+                    </connections>
+                </slider>
+                <slider verticalHuggingPriority="750" id="SvT-Vu-HAe" userLabel="TrebleEQ">
+                    <rect key="frame" x="0.0" y="7" width="323" height="27"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                    <sliderCell key="cell" continuous="YES" state="on" alignment="left" minValue="-12" maxValue="12" tickMarkPosition="below" numberOfTickMarks="1" sliderType="linear" id="h8H-va-G8c"/>
+                    <connections>
+                        <action selector="changeTrebleEQ:" target="-2" id="Q05-Wx-Oxv"/>
+                        <binding destination="-2" name="value" keyPath="trebleEQ" id="wyS-cr-Qni"/>
+                    </connections>
+                </slider>
+                <slider verticalHuggingPriority="750" id="3bB-Vi-XFr" userLabel="PlaySpeed">
+                    <rect key="frame" x="0.0" y="-14" width="323" height="27"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                    <sliderCell key="cell" continuous="YES" state="on" alignment="left" minValue="-50" maxValue="50" tickMarkPosition="below" numberOfTickMarks="1" sliderType="linear" id="WgI-If-cVj"/>
+                    <connections>
+                        <action selector="changeSpeed:" target="-2" id="MsX-zi-d10"/>
+                        <binding destination="-2" name="value" keyPath="playSpeed" id="wky-BB-ihn"/>
+                    </connections>
+                </slider>
+            </subviews>
+            <point key="canvasLocation" x="443.5" y="256"/>
+        </customView>
+    </objects>
+</document>

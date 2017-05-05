@@ -10,20 +10,22 @@ import Cocoa
 import AVFoundation
 
 
-class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSource  {
+class ViewController: NSViewController {
     @IBOutlet var contentTableViewController: NSArrayController!
     @IBOutlet weak var contentTableView: NSTableView!
     @IBOutlet weak var screenView: TTUScreenView!
     @IBOutlet weak var volumeSlider: NSSliderCell!
+    @IBOutlet weak var simpleEQView: TTUSimpleEQView!
 
-    dynamic var isPlaying: Bool = false
+    dynamic var isPlaying = false
 
     private var nextContent: TTUContentMO? = nil
     private var currentContent: TTUContentMO? = nil
     private var timer: NSTimer? = nil
 
-    private var engine: AVAudioEngine = AVAudioEngine()
-    private var playerNode: AVAudioPlayerNode = AVAudioPlayerNode()
+    private var engine = AVAudioEngine()
+    private var playerNode = AVAudioPlayerNode()
+    private var eqNode = AVAudioUnitEQ(numberOfBands: 2)
     private var currentFile: AVAudioFile? = nil
     
     override var representedObject: AnyObject? {
@@ -34,15 +36,36 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSour
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         // Do any additional setup after loading the view.
+
+        simpleEQView.delegate = self
+
+        // prepare for Drag and Drop
         contentTableView.registerForDraggedTypes([NSFilenamesPboardType])
-        isPlaying = false
-        
+
+        // Initialize timer
         timer = NSTimer.scheduledTimerWithTimeInterval(0.5, target: self, selector: "updateTime", userInfo: nil, repeats: true)
+        isPlaying = false
+
+        // Initialize AVAudioEngine
+        // Bass EQ
+        let eq1 = eqNode.bands[0]
+        eq1.bypass = false
+        eq1.filterType = .LowShelf
+        eq1.frequency = 6400
+        eq1.gain = 0.0
+        // Treble EQ
+        let eq2 = eqNode.bands[1]
+        eq2.bypass = false
+        eq2.filterType = .HighShelf
+        eq2.frequency = 120
+        eq2.gain = 0.0
+
         engine.attachNode(playerNode)
+        engine.attachNode(eqNode)
         let mixer = engine.mainMixerNode
-        engine.connect(playerNode, to: mixer, format: mixer.outputFormatForBus(0))
+        engine.connect(playerNode, to: eqNode, format: mixer.outputFormatForBus(0))
+        engine.connect(eqNode, to: mixer, format: mixer.outputFormatForBus(0))
         mixer.outputVolume = volumeSlider.floatValue / 100.0
         do {
             try engine.start()
@@ -94,8 +117,6 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSour
                 
                 if let currentFile = currentFile {
                     self.screenView.seekSliderPosition = 100 * ct * pt.sampleRate / Double(currentFile.length)
-                    let pos = ct * pt.sampleRate / Double(currentFile.length)
-                    print("pos: \(pos)")
                 }
             }
         } else {
@@ -149,17 +170,22 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSour
         mixer.outputVolume = volumeSlider.floatValue / 100.0
     }
     
-    // tableView delegates
-    func tableViewSelectionDidChange(notification: NSNotification) {
-        if let contents = contentTableViewController.selectedObjects {
-            if contents.count == 1 {
-                if let p = contents.first as? TTUContentMO {
-                    nextContent = p
-                }
-            }
-        }
+}
+
+extension ViewController: TTUSimpleEQViewDelegate {
+    func changeBassEQ(value: Float, sender: TTUSimpleEQView) {
+        eqNode.bands[0].gain = value
     }
-    
+
+    func changeTrebleEQ(value: Float, sender: TTUSimpleEQView) {
+        eqNode.bands[1].gain = value
+    }
+
+    func changePlaySpeed(value: Float, sender: TTUSimpleEQView) {
+    }
+}
+
+extension ViewController: NSTableViewDataSource {
     func tableView(tableView: NSTableView, validateDrop info: NSDraggingInfo, proposedRow row: Int, proposedDropOperation dropOperation: NSTableViewDropOperation) -> NSDragOperation {
         return .Copy
     }
@@ -175,7 +201,7 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSour
                 let content     = NSEntityDescription.insertNewObjectForEntityForName("Content", inManagedObjectContext: moc) as! TTUContentMO
                 content.path = item
                 content.title = (item as NSString).lastPathComponent
-
+                
                 let metadatas = metadatasFromURL(item)
                 for metadata in metadatas {
                     if metadata.commonKey == "title" {
@@ -187,6 +213,17 @@ class ViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSour
         }
         return false
     }
-    
+}
+
+extension ViewController: NSTableViewDelegate {
+    func tableViewSelectionDidChange(notification: NSNotification) {
+        if let contents = contentTableViewController.selectedObjects {
+            if contents.count == 1 {
+                if let p = contents.first as? TTUContentMO {
+                    nextContent = p
+                }
+            }
+        }
+    }
 }
 

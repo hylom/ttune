@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		EF5592021EA5169500E3616B /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF5592011EA5169500E3616B /* AVFoundation.framework */; };
 		EF93A8501E9BE3FD00EA0A3D /* TTUContentMO.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF93A84F1E9BE3FD00EA0A3D /* TTUContentMO.swift */; };
+		EF9F82CC1EBCCE9B00BF4AA3 /* TTUSimpleEQView.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF9F82CB1EBCCE9B00BF4AA3 /* TTUSimpleEQView.xib */; };
+		EF9F82CE1EBCCEAF00BF4AA3 /* TTUSimpleEQView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF9F82CD1EBCCEAF00BF4AA3 /* TTUSimpleEQView.swift */; };
 		EFF0B0331EB239FA00ECE274 /* TTUScreenView.xib in Resources */ = {isa = PBXBuildFile; fileRef = EFF0B0321EB239FA00ECE274 /* TTUScreenView.xib */; };
 		EFF0B0351EB23A8D00ECE274 /* TTUScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFF0B0341EB23A8D00ECE274 /* TTUScreenView.swift */; };
 		EFF79E331E99353E00513BC7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFF79E321E99353E00513BC7 /* AppDelegate.swift */; };
@@ -41,6 +43,8 @@
 /* Begin PBXFileReference section */
 		EF5592011EA5169500E3616B /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		EF93A84F1E9BE3FD00EA0A3D /* TTUContentMO.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TTUContentMO.swift; path = ../TTUContentMO.swift; sourceTree = "<group>"; };
+		EF9F82CB1EBCCE9B00BF4AA3 /* TTUSimpleEQView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TTUSimpleEQView.xib; sourceTree = "<group>"; };
+		EF9F82CD1EBCCEAF00BF4AA3 /* TTUSimpleEQView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TTUSimpleEQView.swift; sourceTree = "<group>"; };
 		EFF0B0321EB239FA00ECE274 /* TTUScreenView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TTUScreenView.xib; sourceTree = "<group>"; };
 		EFF0B0341EB23A8D00ECE274 /* TTUScreenView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TTUScreenView.swift; sourceTree = "<group>"; };
 		EFF79E2F1E99353E00513BC7 /* ttune.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ttune.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -112,6 +116,8 @@
 				EF93A84F1E9BE3FD00EA0A3D /* TTUContentMO.swift */,
 				EFF79E321E99353E00513BC7 /* AppDelegate.swift */,
 				EFF79E341E99353E00513BC7 /* ViewController.swift */,
+				EF9F82CB1EBCCE9B00BF4AA3 /* TTUSimpleEQView.xib */,
+				EF9F82CD1EBCCEAF00BF4AA3 /* TTUSimpleEQView.swift */,
 				EFF0B0321EB239FA00ECE274 /* TTUScreenView.xib */,
 				EFF0B0341EB23A8D00ECE274 /* TTUScreenView.swift */,
 				EFF79E361E99353E00513BC7 /* Document.swift */,
@@ -245,6 +251,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EF9F82CC1EBCCE9B00BF4AA3 /* TTUSimpleEQView.xib in Resources */,
 				EFF0B0331EB239FA00ECE274 /* TTUScreenView.xib in Resources */,
 				EFF79E3C1E99353E00513BC7 /* Assets.xcassets in Resources */,
 				EFF79E3F1E99353E00513BC7 /* Main.storyboard in Resources */,
@@ -278,6 +285,7 @@
 				EFF79E331E99353E00513BC7 /* AppDelegate.swift in Sources */,
 				EFF0B0351EB23A8D00ECE274 /* TTUScreenView.swift in Sources */,
 				EFF79E371E99353E00513BC7 /* Document.swift in Sources */,
+				EF9F82CE1EBCCEAF00BF4AA3 /* TTUSimpleEQView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
