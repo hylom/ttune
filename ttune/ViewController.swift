@@ -190,53 +190,46 @@ extension ViewController: NSTableViewDataSource {
         return .Copy
     }
     
+    private func setMetadata(content: TTUContentMO, path: String) {
+        content.path = path
+        content.title = (path as NSString).lastPathComponent
+        
+        let url = NSURL(fileURLWithPath: path)
+        let asset = AVAsset(URL: url)
+
+        // format duration
+        let formatter = NSDateComponentsFormatter()
+        formatter.unitsStyle = .Positional
+        formatter.zeroFormattingBehavior = .Pad
+        formatter.allowedUnits = [.Minute, .Second]
+        let totalSec = CMTimeGetSeconds(asset.duration)
+        if let t = formatter.stringFromTimeInterval(totalSec) {
+            content.time = t
+        }
+        
+        for metadata in asset.metadata {
+            if metadata.commonKey == AVMetadataCommonKeyTitle {
+                content.title = (metadata.value as? String)!
+            }
+            if metadata.commonKey == AVMetadataCommonKeyAlbumName {
+                content.album = (metadata.value as? String)!
+            }
+            if metadata.commonKey == AVMetadataCommonKeyArtist {
+                content.artist = (metadata.value as? String)!
+            }
+        }
+        
+    }
+    
     func tableView(tableView: NSTableView, acceptDrop info: NSDraggingInfo, row: Int, dropOperation: NSTableViewDropOperation) -> Bool {
         let pboard = info.draggingPasteboard()
         if (pboard.availableTypeFromArray([NSFilenamesPboardType]) == NSFilenamesPboardType) {
             let files = pboard.propertyListForType(NSFilenamesPboardType) as? [String]
-            
             let moc = contentTableViewController.managedObjectContext!
-            for item in files! {
+            for path in files! {
                 //print("drop: \(item)")
                 let content = NSEntityDescription.insertNewObjectForEntityForName("Content", inManagedObjectContext: moc) as! TTUContentMO
-                content.path = item
-                content.title = (item as NSString).lastPathComponent
-                
-                let url = NSURL(fileURLWithPath: item)
-                let asset = AVAsset(URL: url)
-                //print(asset.duration)
-                //print(asset.preferredRate)
-
-                let formatter = NSDateComponentsFormatter()
-                formatter.unitsStyle = .Positional
-                formatter.zeroFormattingBehavior = .Pad
-                formatter.allowedUnits = [.Minute, .Second]
-                let totalSec = CMTimeGetSeconds(asset.duration)
-                if let t = formatter.stringFromTimeInterval(totalSec) {
-                    content.time = t
-                }
-
-                for metadata in asset.commonMetadata {
-                    //print(metadata.commonKey)
-                    if metadata.commonKey == "albumName" {
-                        content.album = (metadata.value as? String)!
-                    }
-                    if metadata.commonKey == "albumArtist" {
-                        content.albumArtist = (metadata.value as? String)!
-                    }
-                    if metadata.commonKey == "artist" {
-                        content.artist = (metadata.value as? String)!
-                    }
-                    if metadata.commonKey == "genre" {
-                        content.genre = (metadata.value as? String)!
-                    }
-                    if metadata.commonKey == "time" {
-                        content.time = (metadata.value as? String)!
-                    }
-                    if metadata.commonKey == "title" {
-                        content.title = (metadata.value as? String)!
-                    }
-                }
+                setMetadata(content, path: path)
             }
             return true
         }
