@@ -1,15 +1,78 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="9525" systemVersion="14F2315" minimumToolsVersion="Automatic">
     <entity name="Content" representedClassName=".TTUContentMO" syncable="YES">
+        <attribute name="acknowledgement" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="album" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="albumArtist" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="albumRating" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="arranger" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="artDirector" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="artist" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="artistID" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="author" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="beatsPerMin" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="bitRate" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="category" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="chapterName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="chapterNumber" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="composer" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="conductor" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="contentRating" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="copyright" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="coverArt" optional="YES" attributeType="Binary" syncable="YES"/>
+        <attribute name="credits" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="dateAtAdd" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="dateAtChange" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="descript" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="director" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="discCompilation" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="discNumber" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="encodedBy" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="encodingTool" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="episodeID" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="episodeNumber" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="eq" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="execProducer" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="genre" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="genreID" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="grouping" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="linerNotes" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="love" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="lyrics" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="onlineExtras" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="originalArtist" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="path" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="performer" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="phonogramRights" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="predefinedGenre" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="producer" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="program" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="publisher" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="recordCompany" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="releaseDate" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="sampleRate" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="season" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="size" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="skips" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="soloist" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="songName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="sortAlbum" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="sortAlbumArtist" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="sortArtist" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="sortComposer" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="sortProgram" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="soundEngineer" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="thanks" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="time" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="trackNumber" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="trackSubTitle" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="userComment" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="userGenre" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="volume" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="year" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Content" positionX="-54" positionY="-9" width="128" height="150"/>
+        <element name="Content" positionX="-54" positionY="-9" width="128" height="1095"/>
     </elements>
 </model>

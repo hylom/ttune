@@ -26,6 +26,7 @@ class ViewController: NSViewController {
     private var engine = AVAudioEngine()
     private var playerNode = AVAudioPlayerNode()
     private var eqNode = AVAudioUnitEQ(numberOfBands: 2)
+    private var tsNode = AVAudioUnitTimePitch()
     private var currentFile: AVAudioFile? = nil
     
     override var representedObject: AnyObject? {
@@ -63,8 +64,11 @@ class ViewController: NSViewController {
 
         engine.attachNode(playerNode)
         engine.attachNode(eqNode)
+        engine.attachNode(tsNode)
+
         let mixer = engine.mainMixerNode
-        engine.connect(playerNode, to: eqNode, format: mixer.outputFormatForBus(0))
+        engine.connect(playerNode, to: tsNode, format: mixer.outputFormatForBus(0))
+        engine.connect(tsNode, to: eqNode, format: mixer.outputFormatForBus(0))
         engine.connect(eqNode, to: mixer, format: mixer.outputFormatForBus(0))
         mixer.outputVolume = volumeSlider.floatValue / 100.0
         do {
@@ -182,43 +186,13 @@ extension ViewController: TTUSimpleEQViewDelegate {
     }
 
     func changePlaySpeed(value: Float, sender: TTUSimpleEQView) {
+        tsNode.rate = (100 + value) / 100
     }
 }
 
 extension ViewController: NSTableViewDataSource {
     func tableView(tableView: NSTableView, validateDrop info: NSDraggingInfo, proposedRow row: Int, proposedDropOperation dropOperation: NSTableViewDropOperation) -> NSDragOperation {
         return .Copy
-    }
-    
-    private func setMetadata(content: TTUContentMO, path: String) {
-        content.path = path
-        content.title = (path as NSString).lastPathComponent
-        
-        let url = NSURL(fileURLWithPath: path)
-        let asset = AVAsset(URL: url)
-
-        // format duration
-        let formatter = NSDateComponentsFormatter()
-        formatter.unitsStyle = .Positional
-        formatter.zeroFormattingBehavior = .Pad
-        formatter.allowedUnits = [.Minute, .Second]
-        let totalSec = CMTimeGetSeconds(asset.duration)
-        if let t = formatter.stringFromTimeInterval(totalSec) {
-            content.time = t
-        }
-        
-        for metadata in asset.metadata {
-            if metadata.commonKey == AVMetadataCommonKeyTitle {
-                content.title = (metadata.value as? String)!
-            }
-            if metadata.commonKey == AVMetadataCommonKeyAlbumName {
-                content.album = (metadata.value as? String)!
-            }
-            if metadata.commonKey == AVMetadataCommonKeyArtist {
-                content.artist = (metadata.value as? String)!
-            }
-        }
-        
     }
     
     func tableView(tableView: NSTableView, acceptDrop info: NSDraggingInfo, row: Int, dropOperation: NSTableViewDropOperation) -> Bool {
@@ -228,8 +202,19 @@ extension ViewController: NSTableViewDataSource {
             let moc = contentTableViewController.managedObjectContext!
             for path in files! {
                 //print("drop: \(item)")
+                let url = NSURL(fileURLWithPath: path)
+                let asset = AVAsset(URL: url)
+                if !asset.playable {
+                    continue
+                }
+                
                 let content = NSEntityDescription.insertNewObjectForEntityForName("Content", inManagedObjectContext: moc) as! TTUContentMO
-                setMetadata(content, path: path)
+                content.path = path
+                content.setMetadataFrom(asset)
+
+                if content.title == "" {
+                    content.title = (path as NSString).lastPathComponent
+                }
             }
             return true
         }
