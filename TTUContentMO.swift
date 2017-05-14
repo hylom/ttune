@@ -114,7 +114,6 @@ class TTUContentMO: NSManagedObject {
     }
     
     private func setItunesMetadata(asset: AVAsset) {
-        print(AVMetadataiTunesMetadataKeyAlbum)
         for metadata in AVMetadataItem.metadataItemsFromArray(asset.metadata, withKey: nil, keySpace: AVMetadataKeySpaceiTunes) {
             guard let key = AVMetadataItem.identifierForKey(metadata.key!, keySpace: AVMetadataKeySpaceiTunes) else {
                 continue

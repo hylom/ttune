@@ -51,16 +51,23 @@ class TTUSimpleEQView: NSView {
         let path = NSBezierPath(roundedRect: self.bounds, xRadius: 10.0, yRadius: 10.0)
         path.fill()
     }
+    
     @IBAction func changeBassEQ(sender: AnyObject) {
-        delegate?.changeBassEQ(bassEQ, sender: self)
+        if let d = delegate {
+            d.changeBassEQ(bassEQ, sender: self)
+        }
     }
 
     @IBAction func changeTrebleEQ(sender: AnyObject) {
-        delegate?.changeTrebleEQ(trebleEQ, sender: self)
+        if let d = delegate {
+            d.changeTrebleEQ(trebleEQ, sender: self)
+        }
     }
 
     @IBAction func changeSpeed(sender: AnyObject) {
-        delegate?.changePlaySpeed(playSpeed, sender: self)
+        if let d = delegate {
+            d.changePlaySpeed(playSpeed, sender: self)
+        }
     }
 }
 

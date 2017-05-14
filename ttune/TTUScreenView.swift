@@ -11,6 +11,7 @@ import Foundation
 import AVFoundation
 
 class TTUScreenView: NSView {
+    weak var delegate: TTUScreenViewDelegate! = nil
     dynamic var title = ""
     dynamic var duration = ""
     dynamic var seekSliderPosition = 0.0
@@ -50,21 +51,15 @@ class TTUScreenView: NSView {
         // NSRectFill(dirtyRect)
         let path = NSBezierPath(roundedRect: self.bounds, xRadius: 10.0, yRadius: 10.0)
         path.fill()
-/*
-        if ((self.title) != nil) {
-            let font = NSFont(name: "Helvetica", size: 12)
-            let style = NSMutableParagraphStyle()
-            style.alignment = NSTextAlignment.Center
-            let attrs = [
-                NSFontAttributeName: font!,
-                NSParagraphStyleAttributeName: style
-            ]
-            let attrString = NSAttributedString(string: self.title, attributes: attrs)
-
-            let rect = dirtyRect
-            attrString.drawInRect(rect)
-            
-        }
-*/      
     }
+    
+    @IBAction func changeSeekSliderPosition(sender: AnyObject) {
+        if let d = delegate {
+            d.changeSeekSliderPosision(seekSliderPosition, sender: self)
+        }
+    }
+}
+
+protocol TTUScreenViewDelegate: class {
+    func changeSeekSliderPosision(value: Double, sender: TTUScreenView)
 }

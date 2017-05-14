@@ -26,8 +26,9 @@
                 <slider verticalHuggingPriority="750" id="eRA-NW-pFg">
                     <rect key="frame" x="9" y="1" width="462" height="21"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                    <sliderCell key="cell" state="on" alignment="left" maxValue="100" doubleValue="50" tickMarkPosition="above" sliderType="linear" id="fHt-dS-uJb"/>
+                    <sliderCell key="cell" state="on" alignment="left" maxValue="100" tickMarkPosition="above" sliderType="linear" id="fHt-dS-uJb"/>
                     <connections>
+                        <action selector="changeSeekSliderPosition:" target="-2" id="2ch-9y-D2T"/>
                         <binding destination="-2" name="value" keyPath="seekSliderPosition" id="6vy-wp-tAI"/>
                     </connections>
                 </slider>
