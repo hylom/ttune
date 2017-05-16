@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		EF5592021EA5169500E3616B /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF5592011EA5169500E3616B /* AVFoundation.framework */; };
+		EF8821801ECB698A0092C690 /* ContentTableRawDifinitions.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF88217F1ECB698A0092C690 /* ContentTableRawDifinitions.swift */; };
 		EF93A8501E9BE3FD00EA0A3D /* TTUContentMO.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF93A84F1E9BE3FD00EA0A3D /* TTUContentMO.swift */; };
 		EF9F82CC1EBCCE9B00BF4AA3 /* TTUSimpleEQView.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF9F82CB1EBCCE9B00BF4AA3 /* TTUSimpleEQView.xib */; };
 		EF9F82CE1EBCCEAF00BF4AA3 /* TTUSimpleEQView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF9F82CD1EBCCEAF00BF4AA3 /* TTUSimpleEQView.swift */; };
@@ -42,6 +43,7 @@
 
 /* Begin PBXFileReference section */
 		EF5592011EA5169500E3616B /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		EF88217F1ECB698A0092C690 /* ContentTableRawDifinitions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentTableRawDifinitions.swift; sourceTree = "<group>"; };
 		EF93A84F1E9BE3FD00EA0A3D /* TTUContentMO.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TTUContentMO.swift; path = ../TTUContentMO.swift; sourceTree = "<group>"; };
 		EF9F82CB1EBCCE9B00BF4AA3 /* TTUSimpleEQView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TTUSimpleEQView.xib; sourceTree = "<group>"; };
 		EF9F82CD1EBCCEAF00BF4AA3 /* TTUSimpleEQView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TTUSimpleEQView.swift; sourceTree = "<group>"; };
@@ -114,6 +116,7 @@
 			isa = PBXGroup;
 			children = (
 				EF93A84F1E9BE3FD00EA0A3D /* TTUContentMO.swift */,
+				EF88217F1ECB698A0092C690 /* ContentTableRawDifinitions.swift */,
 				EFF79E321E99353E00513BC7 /* AppDelegate.swift */,
 				EFF79E341E99353E00513BC7 /* ViewController.swift */,
 				EF9F82CB1EBCCE9B00BF4AA3 /* TTUSimpleEQView.xib */,
@@ -279,6 +282,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EF8821801ECB698A0092C690 /* ContentTableRawDifinitions.swift in Sources */,
 				EF93A8501E9BE3FD00EA0A3D /* TTUContentMO.swift in Sources */,
 				EFF79E3A1E99353E00513BC7 /* Document.xcdatamodeld in Sources */,
 				EFF79E351E99353E00513BC7 /* ViewController.swift in Sources */,

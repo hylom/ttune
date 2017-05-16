@@ -124,6 +124,7 @@ class TTUContentMO: NSManagedObject {
                 continue
             }
             let k = comps[1].stringByReplacingOccurrencesOfString("%A9", withString: "@")
+            print("key:\(k)")
 
             if k == AVMetadataiTunesMetadataKeyAlbum {
                 if let v = metadata.stringValue {

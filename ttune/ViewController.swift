@@ -53,6 +53,16 @@ class ViewController: NSViewController {
         contentTableView.doubleAction = "onTableViewDoubleClick"
         //contentTableView.doubleAction = #selector(onTableViewDoubleClick)
         
+        // Update columns
+        for item in ["title", "album", "artist", "time"] {
+            if let title = contentTableRowDifinitions[item] {
+                let col = NSTableColumn(identifier: item)
+                col.title = title
+                contentTableView.addTableColumn(col)
+                col.bind(NSValueBinding, toObject: contentTableViewController, withKeyPath: "objectValue." + item, options: nil)
+            }
+            
+        }
 
         // Initialize timer
         timer = NSTimer.scheduledTimerWithTimeInterval(0.5, target: self, selector: "updateTime", userInfo: nil, repeats: true)
@@ -310,6 +320,39 @@ extension ViewController: NSTableViewDelegate {
         }
     }
     
-
+    func tableView(tableView: NSTableView, viewForTableColumn tableColumn: NSTableColumn?, row: Int) -> NSView? {
+        if let tableColumn = tableColumn {
+            guard let item = contentTableRowDifinitions[tableColumn.identifier] else {
+                return nil
+            }
+            let view = NSTableCellView(frame: NSRect(x: 0, y: 0, width: 100, height: 100))
+            view.identifier = tableColumn.identifier
+            let field = NSTextField(frame: NSRect(x: 0, y: 0, width: tableColumn.width, height: tableView.rowHeight))
+            field.identifier = tableColumn.identifier
+            field.bind(NSValueBinding, toObject: view, withKeyPath: "objectValue." + item, options: nil)
+            field.drawsBackground = false
+            field.bordered = false
+            view.textField = field
+            view.addSubview(field)
+            return view
+        }
+        return nil
+    }
+    
+    func tableView(tableView: NSTableView, didAddRowView rowView: NSTableRowView, forRow row: Int) {
+        print(rowView.numberOfColumns)
+        for i in 0..<rowView.numberOfColumns {
+            let cellView = rowView.viewAtColumn(i)
+            if (cellView == nil) {
+                print("col \(i): nill")
+            }
+        }
+    }
+    
+    func tableViewColumnDidResize(notification: NSNotification) {
+        guard let col = notification.userInfo?["NSTableColumn"] as? NSTableColumn else { return }
+        let width = col.width
+        print("resized to \(width)")
+    }
 }
 
