@@ -18,6 +18,7 @@ class ViewController: NSViewController {
     @IBOutlet weak var simpleEQView: TTUSimpleEQView!
 
     dynamic var isPlaying = false
+    dynamic var usePresetVolume = true
 
     private var nextContent: TTUContentMO? = nil
     private var currentContent: TTUContentMO? = nil
@@ -54,7 +55,7 @@ class ViewController: NSViewController {
         //contentTableView.doubleAction = #selector(onTableViewDoubleClick)
         
         // Update columns
-        for item in ["title", "album", "artist", "time"] {
+        for item in ["title", "volume", "album", "artist", "time"] {
             if let title = contentTableRowDifinitions[item] {
                 let col = NSTableColumn(identifier: item)
                 col.title = title
@@ -90,7 +91,7 @@ class ViewController: NSViewController {
         engine.connect(playerNode, to: tsNode, format: mixer.outputFormatForBus(0))
         engine.connect(tsNode, to: eqNode, format: mixer.outputFormatForBus(0))
         engine.connect(eqNode, to: mixer, format: mixer.outputFormatForBus(0))
-        mixer.outputVolume = volumeSlider.floatValue / 100.0
+        setVolume()
         do {
             try engine.start()
         } catch {
@@ -115,6 +116,7 @@ class ViewController: NSViewController {
                 playTimeOffset = 0.0
                 playerNode.stop()
                 currentContent = next
+                setVolume()
                 let url = NSURL(fileURLWithPath: next.path)
                 do {
                     try currentFile = AVAudioFile(forReading: url)
@@ -122,6 +124,12 @@ class ViewController: NSViewController {
                     currentDurationInSample = f.length
                     currentBuffer = AVAudioPCMBuffer(PCMFormat: f.processingFormat, frameCapacity: AVAudioFrameCount(f.length))
                     try f.readIntoBuffer(currentBuffer)
+
+                    // update playerNode's output format
+                    engine.disconnectNodeOutput(playerNode)
+                    engine.connect(playerNode, to: tsNode, format: f.processingFormat)
+
+                    playerNode.reset()
                     playerNode.scheduleBuffer(currentBuffer, completionHandler: playComplete)
                     playerNode.play()
                     screenView.title = next.title
@@ -144,7 +152,6 @@ class ViewController: NSViewController {
     
     func playComplete() {
         if (isPlaying && !isSeeking) {
-            print("play done")
             //isPlaying = false
         }
     }
@@ -251,7 +258,17 @@ class ViewController: NSViewController {
     }
     
     @IBAction func changeVolume(sender: AnyObject) {
+        setVolume()
+    }
+    
+    private func setVolume() {
         let mixer = engine.mainMixerNode
+        if usePresetVolume {
+            if let presetVolume = currentContent?.volume {
+                mixer.outputVolume = volumeSlider.floatValue * presetVolume / 10000.0
+                return
+            }
+        }
         mixer.outputVolume = volumeSlider.floatValue / 100.0
     }
     
@@ -340,7 +357,6 @@ extension ViewController: NSTableViewDelegate {
     }
     
     func tableView(tableView: NSTableView, didAddRowView rowView: NSTableRowView, forRow row: Int) {
-        print(rowView.numberOfColumns)
         for i in 0..<rowView.numberOfColumns {
             let cellView = rowView.viewAtColumn(i)
             if (cellView == nil) {

@@ -93,6 +93,7 @@ class TTUContentMO: NSManagedObject {
 
     override func awakeFromInsert() {
         super.awakeFromInsert()
+        volume = 100.0
     }
     
     func setMetadataFrom(asset: AVAsset) {
