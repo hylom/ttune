@@ -68,6 +68,9 @@ class ViewController: NSViewController {
         // Initialize timer
         timer = NSTimer.scheduledTimerWithTimeInterval(0.5, target: self, selector: "updateTime", userInfo: nil, repeats: true)
         isPlaying = false
+        
+        // Initialize notification
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "updatePresetVolume", name: NSControlTextDidEndEditingNotification, object: nil)
 
         // Initialize AVAudioEngine
         // Bass EQ
@@ -183,6 +186,14 @@ class ViewController: NSViewController {
             if let currentFile = currentFile {
                 self.screenView.seekSliderPosition = 100 * (ct + playTimeOffset) * pt.sampleRate / Double(currentFile.length)
             }
+        }
+    }
+
+    func updatePresetVolume() {
+        guard let current = currentContent else { return }
+        guard let next = nextContent else { return }
+        if current.path == next.path {
+            setVolume()
         }
     }
     
@@ -370,5 +381,6 @@ extension ViewController: NSTableViewDelegate {
         let width = col.width
         print("resized to \(width)")
     }
+
 }
 

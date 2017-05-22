@@ -116,9 +116,13 @@ class TTUContentMO: NSManagedObject {
     
     private func setItunesMetadata(asset: AVAsset) {
         for metadata in AVMetadataItem.metadataItemsFromArray(asset.metadata, withKey: nil, keySpace: AVMetadataKeySpaceiTunes) {
+            /*
             guard let key = AVMetadataItem.identifierForKey(metadata.key!, keySpace: AVMetadataKeySpaceiTunes) else {
                 continue
             }
+            */
+            guard let key = metadata.identifier else { continue }
+            
             // k is like 'itsk/%A9nam', so split and decode
             let comps = key.componentsSeparatedByString("/")
             if (comps[0] != "itsk") {
