@@ -101,6 +101,18 @@ class ViewController: NSViewController {
             print("AVAudioEngine can't start...")
         }
     }
+    
+    override func keyUp(theEvent: NSEvent) {
+        //print("keyUp: \(theEvent)")
+        if theEvent.characters == " " {
+            if (isPlaying) {
+                isPlaying = false
+                stopPlay()
+            } else {
+                isPlaying = startPlay()
+            }
+        }
+    }
 
     func onTableViewDoubleClick() {
         if (isPlaying) {
@@ -122,18 +134,27 @@ class ViewController: NSViewController {
                 setVolume()
                 let url = NSURL(fileURLWithPath: next.path)
                 do {
+                    // disconnect to update playerNode's output format
+                    playerNode.reset()
+                    engine.disconnectNodeOutput(eqNode)
+                    engine.disconnectNodeOutput(tsNode)
+                    engine.disconnectNodeOutput(playerNode)
+
                     try currentFile = AVAudioFile(forReading: url)
                     guard let f = currentFile else { return false }
                     currentDurationInSample = f.length
                     currentBuffer = AVAudioPCMBuffer(PCMFormat: f.processingFormat, frameCapacity: AVAudioFrameCount(f.length))
                     try f.readIntoBuffer(currentBuffer)
 
-                    // update playerNode's output format
-                    engine.disconnectNodeOutput(playerNode)
-                    engine.connect(playerNode, to: tsNode, format: f.processingFormat)
-
-                    playerNode.reset()
                     playerNode.scheduleBuffer(currentBuffer, completionHandler: playComplete)
+                    let mixer = engine.mainMixerNode
+                    engine.connect(playerNode, to: tsNode, format: f.processingFormat)
+                    engine.connect(tsNode, to: eqNode, format: f.processingFormat)
+                    engine.connect(eqNode, to: mixer, format: f.processingFormat)
+                    
+                    // for debug
+                    //print("rate: \(f.processingFormat.sampleRate) - \(tsNode.outputFormatForBus(0).sampleRate) - \(eqNode.outputFormatForBus(0).sampleRate) - \(mixer.outputFormatForBus(0).sampleRate)")
+                    //print("rate: \(f.processingFormat.sampleRate) - \(mixer.outputFormatForBus(0).sampleRate)")
                     playerNode.play()
                     screenView.title = next.title
                 } catch {
@@ -368,12 +389,14 @@ extension ViewController: NSTableViewDelegate {
     }
     
     func tableView(tableView: NSTableView, didAddRowView rowView: NSTableRowView, forRow row: Int) {
+        /*
         for i in 0..<rowView.numberOfColumns {
             let cellView = rowView.viewAtColumn(i)
             if (cellView == nil) {
                 print("col \(i): nill")
             }
         }
+        */
     }
     
     func tableViewColumnDidResize(notification: NSNotification) {
