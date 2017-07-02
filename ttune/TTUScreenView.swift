@@ -26,19 +26,19 @@ class TTUScreenView: NSView {
         initialize()
     }
     
-    private func initialize() {
+    fileprivate func initialize() {
         if let theView = self.loadFromNib() {
             theView.frame = self.bounds
             self.addSubview(theView)
         }
     }
     
-    private func loadFromNib() -> NSView? {
-        var topLevelObjects:NSArray?
-        let bundle = NSBundle.mainBundle()
+    fileprivate func loadFromNib() -> NSView? {
+        var topLevelObjects = NSArray()
+        let bundle = Bundle.main
         if bundle.loadNibNamed("TTUScreenView", owner: self, topLevelObjects: &topLevelObjects) {
-            for obj in topLevelObjects! {
-                if obj.isKindOfClass(NSView) {
+            for obj in topLevelObjects {
+                if obj is NSView {
                     return obj as? NSView
                 }
             }
@@ -46,14 +46,14 @@ class TTUScreenView: NSView {
         return nil
     }
     
-    override func drawRect(dirtyRect: NSRect) {
+    override func draw(_ dirtyRect: NSRect) {
         NSColor(red: 248, green: 253, blue: 224, alpha: 100).setFill()
         // NSRectFill(dirtyRect)
         let path = NSBezierPath(roundedRect: self.bounds, xRadius: 10.0, yRadius: 10.0)
         path.fill()
     }
     
-    @IBAction func changeSeekSliderPosition(sender: AnyObject) {
+    @IBAction func changeSeekSliderPosition(_ sender: AnyObject) {
         if let d = delegate {
             d.changeSeekSliderPosision(seekSliderPosition, sender: self)
         }
@@ -61,5 +61,5 @@ class TTUScreenView: NSView {
 }
 
 protocol TTUScreenViewDelegate: class {
-    func changeSeekSliderPosision(value: Double, sender: TTUScreenView)
+    func changeSeekSliderPosision(_ value: Double, sender: TTUScreenView)
 }

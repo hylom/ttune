@@ -20,21 +20,21 @@ class ViewController: NSViewController {
     dynamic var isPlaying = false
     dynamic var usePresetVolume = true
 
-    private var nextContent: TTUContentMO? = nil
-    private var currentContent: TTUContentMO? = nil
-    private var timer: NSTimer? = nil
+    fileprivate var nextContent: TTUContentMO? = nil
+    fileprivate var currentContent: TTUContentMO? = nil
+    fileprivate var timer: Timer? = nil
 
-    private var engine = AVAudioEngine()
-    private var playerNode = AVAudioPlayerNode()
-    private var eqNode = AVAudioUnitEQ(numberOfBands: 2)
-    private var tsNode = AVAudioUnitTimePitch()
-    private var currentFile: AVAudioFile? = nil
-    private var currentDurationInSample: Int64 = 0
-    private var currentBuffer = AVAudioPCMBuffer()
-    private var isSeeking = false
-    private var playTimeOffset = 0.0
+    fileprivate var engine = AVAudioEngine()
+    fileprivate var playerNode = AVAudioPlayerNode()
+    fileprivate var eqNode = AVAudioUnitEQ(numberOfBands: 2)
+    fileprivate var tsNode = AVAudioUnitTimePitch()
+    fileprivate var currentFile: AVAudioFile? = nil
+    fileprivate var currentDurationInSample: Int64 = 0
+    fileprivate var currentBuffer = AVAudioPCMBuffer()
+    fileprivate var isSeeking = false
+    fileprivate var playTimeOffset = 0.0
     
-    override var representedObject: AnyObject? {
+    override var representedObject: Any? {
         didSet {
             // Update the view, if already loaded.
         }
@@ -48,10 +48,10 @@ class ViewController: NSViewController {
         screenView.delegate = self
 
         // prepare for Drag and Drop
-        contentTableView.registerForDraggedTypes([NSFilenamesPboardType])
+        contentTableView.register(forDraggedTypes: [NSFilenamesPboardType])
         
         // add double-click handler
-        contentTableView.doubleAction = "onTableViewDoubleClick"
+        contentTableView.doubleAction = #selector(ViewController.onTableViewDoubleClick)
         //contentTableView.doubleAction = #selector(onTableViewDoubleClick)
         
         // Update columns
@@ -60,40 +60,40 @@ class ViewController: NSViewController {
                 let col = NSTableColumn(identifier: item)
                 col.title = title
                 contentTableView.addTableColumn(col)
-                col.bind(NSValueBinding, toObject: contentTableViewController, withKeyPath: "objectValue." + item, options: nil)
+                col.bind(NSValueBinding, to: contentTableViewController, withKeyPath: "objectValue." + item, options: nil)
             }
             
         }
 
         // Initialize timer
-        timer = NSTimer.scheduledTimerWithTimeInterval(0.5, target: self, selector: "updateTime", userInfo: nil, repeats: true)
+        timer = Timer.scheduledTimer(timeInterval: 0.5, target: self, selector: #selector(ViewController.updateTime), userInfo: nil, repeats: true)
         isPlaying = false
         
         // Initialize notification
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "updatePresetVolume", name: NSControlTextDidEndEditingNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(ViewController.updatePresetVolume), name: NSNotification.Name.NSControlTextDidEndEditing, object: nil)
 
         // Initialize AVAudioEngine
         // Bass EQ
         let eq1 = eqNode.bands[0]
         eq1.bypass = false
-        eq1.filterType = .LowShelf
+        eq1.filterType = .lowShelf
         eq1.frequency = 6400
         eq1.gain = 0.0
         // Treble EQ
         let eq2 = eqNode.bands[1]
         eq2.bypass = false
-        eq2.filterType = .HighShelf
+        eq2.filterType = .highShelf
         eq2.frequency = 220
         eq2.gain = 0.0
 
-        engine.attachNode(playerNode)
-        engine.attachNode(eqNode)
-        engine.attachNode(tsNode)
+        engine.attach(playerNode)
+        engine.attach(eqNode)
+        engine.attach(tsNode)
 
         let mixer = engine.mainMixerNode
-        engine.connect(playerNode, to: tsNode, format: mixer.outputFormatForBus(0))
-        engine.connect(tsNode, to: eqNode, format: mixer.outputFormatForBus(0))
-        engine.connect(eqNode, to: mixer, format: mixer.outputFormatForBus(0))
+        engine.connect(playerNode, to: tsNode, format: mixer.outputFormat(forBus: 0))
+        engine.connect(tsNode, to: eqNode, format: mixer.outputFormat(forBus: 0))
+        engine.connect(eqNode, to: mixer, format: mixer.outputFormat(forBus: 0))
         setVolume()
         do {
             try engine.start()
@@ -102,7 +102,7 @@ class ViewController: NSViewController {
         }
     }
     
-    override func keyUp(theEvent: NSEvent) {
+    override func keyUp(with theEvent: NSEvent) {
         //print("keyUp: \(theEvent)")
         if theEvent.characters == " " {
             if (isPlaying) {
@@ -124,7 +124,7 @@ class ViewController: NSViewController {
         //let item = contentTableViewController.
     }
     
-    private func startPlay() -> Bool {
+    fileprivate func startPlay() -> Bool {
         if let next = nextContent {
             if currentContent == nil || currentContent!.path != next.path {
                 // play next content
@@ -132,7 +132,7 @@ class ViewController: NSViewController {
                 playerNode.stop()
                 currentContent = next
                 setVolume()
-                let url = NSURL(fileURLWithPath: next.path)
+                let url = URL(fileURLWithPath: next.path)
                 do {
                     // disconnect to update playerNode's output format
                     playerNode.reset()
@@ -143,8 +143,8 @@ class ViewController: NSViewController {
                     try currentFile = AVAudioFile(forReading: url)
                     guard let f = currentFile else { return false }
                     currentDurationInSample = f.length
-                    currentBuffer = AVAudioPCMBuffer(PCMFormat: f.processingFormat, frameCapacity: AVAudioFrameCount(f.length))
-                    try f.readIntoBuffer(currentBuffer)
+                    currentBuffer = AVAudioPCMBuffer(pcmFormat: f.processingFormat, frameCapacity: AVAudioFrameCount(f.length))
+                    try f.read(into: currentBuffer)
 
                     playerNode.scheduleBuffer(currentBuffer, completionHandler: playComplete)
                     let mixer = engine.mainMixerNode
@@ -170,7 +170,7 @@ class ViewController: NSViewController {
         return false
     }
     
-    private func stopPlay() {
+    fileprivate func stopPlay() {
         playerNode.pause()
     }
     
@@ -180,12 +180,12 @@ class ViewController: NSViewController {
         }
     }
     
-    private func formatTime(time: Double) -> String {
-        let formatter = NSDateComponentsFormatter()
-        formatter.unitsStyle = .Positional
-        formatter.zeroFormattingBehavior = .Pad
-        formatter.allowedUnits = [.Minute, .Second]
-        if let r = formatter.stringFromTimeInterval(time) {
+    fileprivate func formatTime(_ time: Double) -> String {
+        let formatter = DateComponentsFormatter()
+        formatter.unitsStyle = .positional
+        formatter.zeroFormattingBehavior = .pad
+        formatter.allowedUnits = [.minute, .second]
+        if let r = formatter.string(from: time) {
             return r
         }
         return ""
@@ -197,13 +197,13 @@ class ViewController: NSViewController {
             return
         }
 
-        if let pt = playerNode.playerTimeForNodeTime(t) {
+        if let pt = playerNode.playerTime(forNodeTime: t) {
             if pt.sampleTime > AVAudioFramePosition(currentBuffer.frameLength) {
                 playerNode.stop()
                 return
             }
             let ct = Double(pt.sampleTime) / Double(pt.sampleRate)
-            self.screenView.duration = formatTime(NSTimeInterval(ct + playTimeOffset))
+            self.screenView.duration = formatTime(TimeInterval(ct + playTimeOffset))
             if let currentFile = currentFile {
                 self.screenView.seekSliderPosition = 100 * (ct + playTimeOffset) * pt.sampleRate / Double(currentFile.length)
             }
@@ -218,22 +218,22 @@ class ViewController: NSViewController {
         }
     }
     
-    private func metadatasFromURL(pathString: String) -> [AVMetadataItem] {
-        let url = NSURL(fileURLWithPath: pathString)
-        let asset = AVAsset(URL: url)
+    fileprivate func metadatasFromURL(_ pathString: String) -> [AVMetadataItem] {
+        let url = URL(fileURLWithPath: pathString)
+        let asset = AVAsset(url: url)
         return asset.commonMetadata
     }
     
-    private func seekToAtSample(sample: AVAudioFramePosition) {
+    fileprivate func seekToAtSample(_ sample: AVAudioFramePosition) {
         guard let f = currentFile else { return }
-        let sampleRate = playerNode.outputFormatForBus(0).sampleRate
+        let sampleRate = playerNode.outputFormat(forBus: 0).sampleRate
 
         isSeeking = true
         playerNode.stop()
 
         do {
             f.framePosition = sample
-            try f.readIntoBuffer(currentBuffer, frameCount: AVAudioFrameCount(f.length - sample))
+            try f.read(into: currentBuffer, frameCount: AVAudioFrameCount(f.length - sample))
             currentBuffer.frameLength = AVAudioFrameCount(f.length - sample)
         }
         catch {
@@ -242,7 +242,7 @@ class ViewController: NSViewController {
         }
 
         playTimeOffset = Double(sample) / sampleRate
-        playerNode.scheduleBuffer(currentBuffer, atTime: nil, options: .Interrupts, completionHandler: playComplete)
+        playerNode.scheduleBuffer(currentBuffer, at: nil, options: .interrupts, completionHandler: playComplete)
 
         if (isPlaying) {
             playerNode.play()
@@ -251,7 +251,7 @@ class ViewController: NSViewController {
     }
 
     // UI actions
-    @IBAction func togglePlayState(sender: AnyObject) {
+    @IBAction func togglePlayState(_ sender: AnyObject) {
         if (isPlaying) {
             if !startPlay() {
                 isPlaying = false
@@ -260,14 +260,14 @@ class ViewController: NSViewController {
             stopPlay()
         }
     }
-    @IBAction func fastRewind(sender: AnyObject) {
+    @IBAction func fastRewind(_ sender: AnyObject) {
         if (playTimeOffset != 0.0) {
             seekToAtSample(0)
             return
         }
         isSeeking = true
         playerNode.stop()
-        playerNode.scheduleBuffer(currentBuffer, atTime: nil, options: .Interrupts, completionHandler: playComplete)
+        playerNode.scheduleBuffer(currentBuffer, at: nil, options: .interrupts, completionHandler: playComplete)
         screenView.seekSliderPosition = 0
         screenView.duration = formatTime(0.0)
         isSeeking = false
@@ -277,23 +277,23 @@ class ViewController: NSViewController {
         }
     }
 
-    @IBAction func fastForward(sender: AnyObject) {
-        let sampleRate = playerNode.outputFormatForBus(0).sampleRate
+    @IBAction func fastForward(_ sender: AnyObject) {
+        let sampleRate = playerNode.outputFormat(forBus: 0).sampleRate
         let startTime = AVAudioTime(sampleTime: AVAudioFramePosition(3 * sampleRate), atRate: sampleRate)
         isSeeking = true
         playerNode.stop()
-        playerNode.scheduleBuffer(currentBuffer, atTime: startTime, options: .Interrupts, completionHandler: playComplete)
+        playerNode.scheduleBuffer(currentBuffer, at: startTime, options: .interrupts, completionHandler: playComplete)
         if (isPlaying) {
             playerNode.play()
         }
         isSeeking = false
     }
     
-    @IBAction func changeVolume(sender: AnyObject) {
+    @IBAction func changeVolume(_ sender: AnyObject) {
         setVolume()
     }
     
-    private func setVolume() {
+    fileprivate func setVolume() {
         let mixer = engine.mainMixerNode
         if usePresetVolume {
             if let presetVolume = currentContent?.volume {
@@ -307,7 +307,7 @@ class ViewController: NSViewController {
 }
 
 extension ViewController: TTUScreenViewDelegate {
-    func changeSeekSliderPosision(value: Double, sender: TTUScreenView) {
+    func changeSeekSliderPosision(_ value: Double, sender: TTUScreenView) {
         // convert position to sample
         let s = value *  Double(currentDurationInSample) / 100
         seekToAtSample(AVAudioFramePosition(s))
@@ -315,38 +315,38 @@ extension ViewController: TTUScreenViewDelegate {
 }
 
 extension ViewController: TTUSimpleEQViewDelegate {
-    func changeBassEQ(value: Float, sender: TTUSimpleEQView) {
+    func changeBassEQ(_ value: Float, sender: TTUSimpleEQView) {
         eqNode.bands[0].gain = value
     }
 
-    func changeTrebleEQ(value: Float, sender: TTUSimpleEQView) {
+    func changeTrebleEQ(_ value: Float, sender: TTUSimpleEQView) {
         eqNode.bands[1].gain = value
     }
 
-    func changePlaySpeed(value: Float, sender: TTUSimpleEQView) {
+    func changePlaySpeed(_ value: Float, sender: TTUSimpleEQView) {
         tsNode.rate = (100 + value) / 100
     }
 }
 
 extension ViewController: NSTableViewDataSource {
-    func tableView(tableView: NSTableView, validateDrop info: NSDraggingInfo, proposedRow row: Int, proposedDropOperation dropOperation: NSTableViewDropOperation) -> NSDragOperation {
-        return .Copy
+    func tableView(_ tableView: NSTableView, validateDrop info: NSDraggingInfo, proposedRow row: Int, proposedDropOperation dropOperation: NSTableViewDropOperation) -> NSDragOperation {
+        return .copy
     }
     
-    func tableView(tableView: NSTableView, acceptDrop info: NSDraggingInfo, row: Int, dropOperation: NSTableViewDropOperation) -> Bool {
+    func tableView(_ tableView: NSTableView, acceptDrop info: NSDraggingInfo, row: Int, dropOperation: NSTableViewDropOperation) -> Bool {
         let pboard = info.draggingPasteboard()
-        if (pboard.availableTypeFromArray([NSFilenamesPboardType]) == NSFilenamesPboardType) {
-            guard let files = pboard.propertyListForType(NSFilenamesPboardType) as? [String] else { return false }
+        if (pboard.availableType(from: [NSFilenamesPboardType]) == NSFilenamesPboardType) {
+            guard let files = pboard.propertyList(forType: NSFilenamesPboardType) as? [String] else { return false }
             guard let moc = contentTableViewController.managedObjectContext else { return false }
             for path in files {
                 //print("drop: \(item)")
-                let url = NSURL(fileURLWithPath: path)
-                let asset = AVAsset(URL: url)
-                if !asset.playable {
+                let url = URL(fileURLWithPath: path)
+                let asset = AVAsset(url: url)
+                if !asset.isPlayable {
                     continue
                 }
                 
-                let content = NSEntityDescription.insertNewObjectForEntityForName("Content", inManagedObjectContext: moc) as! TTUContentMO
+                let content = NSEntityDescription.insertNewObject(forEntityName: "Content", into: moc) as! TTUContentMO
                 content.path = path
                 content.setMetadataFrom(asset)
 
@@ -361,15 +361,15 @@ extension ViewController: NSTableViewDataSource {
 }
 
 extension ViewController: NSTableViewDelegate {
-    func tableViewSelectionDidChange(notification: NSNotification) {
-        if let contents = contentTableViewController.selectedObjects where contents.count == 1 {
+    func tableViewSelectionDidChange(_ notification: Notification) {
+        if let contents = contentTableViewController.selectedObjects, contents.count == 1 {
             if let p = contents.first as? TTUContentMO {
                 nextContent = p
             }
         }
     }
     
-    func tableView(tableView: NSTableView, viewForTableColumn tableColumn: NSTableColumn?, row: Int) -> NSView? {
+    func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
         if let tableColumn = tableColumn {
             guard let item = contentTableRowDifinitions[tableColumn.identifier] else {
                 return nil
@@ -378,9 +378,9 @@ extension ViewController: NSTableViewDelegate {
             view.identifier = tableColumn.identifier
             let field = NSTextField(frame: NSRect(x: 0, y: 0, width: tableColumn.width, height: tableView.rowHeight))
             field.identifier = tableColumn.identifier
-            field.bind(NSValueBinding, toObject: view, withKeyPath: "objectValue." + item, options: nil)
+            field.bind(NSValueBinding, to: view, withKeyPath: "objectValue." + item, options: nil)
             field.drawsBackground = false
-            field.bordered = false
+            field.isBordered = false
             view.textField = field
             view.addSubview(field)
             return view
@@ -388,7 +388,7 @@ extension ViewController: NSTableViewDelegate {
         return nil
     }
     
-    func tableView(tableView: NSTableView, didAddRowView rowView: NSTableRowView, forRow row: Int) {
+    func tableView(_ tableView: NSTableView, didAdd rowView: NSTableRowView, forRow row: Int) {
         /*
         for i in 0..<rowView.numberOfColumns {
             let cellView = rowView.viewAtColumn(i)
@@ -399,7 +399,7 @@ extension ViewController: NSTableViewDelegate {
         */
     }
     
-    func tableViewColumnDidResize(notification: NSNotification) {
+    func tableViewColumnDidResize(_ notification: Notification) {
         guard let col = notification.userInfo?["NSTableColumn"] as? NSTableColumn else { return }
         let width = col.width
         print("resized to \(width)")

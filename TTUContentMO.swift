@@ -96,14 +96,14 @@ class TTUContentMO: NSManagedObject {
         volume = 100.0
     }
     
-    func setMetadataFrom(asset: AVAsset) {
+    func setMetadataFrom(_ asset: AVAsset) {
         // format duration
-        let formatter = NSDateComponentsFormatter()
-        formatter.unitsStyle = .Positional
-        formatter.zeroFormattingBehavior = .Pad
-        formatter.allowedUnits = [.Minute, .Second]
+        let formatter = DateComponentsFormatter()
+        formatter.unitsStyle = .positional
+        formatter.zeroFormattingBehavior = .pad
+        formatter.allowedUnits = [.minute, .second]
         let totalSec = CMTimeGetSeconds(asset.duration)
-        if let t = formatter.stringFromTimeInterval(totalSec) {
+        if let t = formatter.string(from: totalSec) {
             time = t
         }
         
@@ -114,8 +114,8 @@ class TTUContentMO: NSManagedObject {
         }
     }
     
-    private func setItunesMetadata(asset: AVAsset) {
-        for metadata in AVMetadataItem.metadataItemsFromArray(asset.metadata, withKey: nil, keySpace: AVMetadataKeySpaceiTunes) {
+    fileprivate func setItunesMetadata(_ asset: AVAsset) {
+        for metadata in AVMetadataItem.metadataItems(from: asset.metadata, withKey: nil, keySpace: AVMetadataKeySpaceiTunes) {
             /*
             guard let key = AVMetadataItem.identifierForKey(metadata.key!, keySpace: AVMetadataKeySpaceiTunes) else {
                 continue
@@ -124,11 +124,11 @@ class TTUContentMO: NSManagedObject {
             guard let key = metadata.identifier else { continue }
             
             // k is like 'itsk/%A9nam', so split and decode
-            let comps = key.componentsSeparatedByString("/")
+            let comps = key.components(separatedBy: "/")
             if (comps[0] != "itsk") {
                 continue
             }
-            let k = comps[1].stringByReplacingOccurrencesOfString("%A9", withString: "@")
+            let k = comps[1].replacingOccurrences(of: "%A9", with: "@")
             print("key:\(k)")
 
             if k == AVMetadataiTunesMetadataKeyAlbum {
@@ -151,7 +151,7 @@ class TTUContentMO: NSManagedObject {
                 
             else if k == AVMetadataiTunesMetadataKeyCoverArt {
                 if let v = metadata.stringValue {
-                    coverArt = v
+                    coverArt = v as AnyObject
                 }
             }
                 

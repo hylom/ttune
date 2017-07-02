@@ -25,19 +25,19 @@ class TTUSimpleEQView: NSView {
         initialize()
     }
     
-    private func initialize() {
+    fileprivate func initialize() {
         if let theView = self.loadFromNib() {
             theView.frame = self.bounds
             self.addSubview(theView)
         }
     }
     
-    private func loadFromNib() -> NSView? {
-        var topLevelObjects:NSArray?
-        let bundle = NSBundle.mainBundle()
+    fileprivate func loadFromNib() -> NSView? {
+        var topLevelObjects = NSArray()
+        let bundle = Bundle.main
         if bundle.loadNibNamed("TTUSimpleEQView", owner: self, topLevelObjects: &topLevelObjects) {
-            for obj in topLevelObjects! {
-                if obj.isKindOfClass(NSView) {
+            for obj in topLevelObjects {
+                if obj is NSView {
                     return obj as? NSView
                 }
             }
@@ -45,26 +45,26 @@ class TTUSimpleEQView: NSView {
         return nil
     }
     
-    override func drawRect(dirtyRect: NSRect) {
+    override func draw(_ dirtyRect: NSRect) {
         NSColor(red: 255, green: 255, blue: 255, alpha: 50).setFill()
         // NSRectFill(dirtyRect)
         let path = NSBezierPath(roundedRect: self.bounds, xRadius: 10.0, yRadius: 10.0)
         path.fill()
     }
     
-    @IBAction func changeBassEQ(sender: AnyObject) {
+    @IBAction func changeBassEQ(_ sender: AnyObject) {
         if let d = delegate {
             d.changeBassEQ(bassEQ, sender: self)
         }
     }
 
-    @IBAction func changeTrebleEQ(sender: AnyObject) {
+    @IBAction func changeTrebleEQ(_ sender: AnyObject) {
         if let d = delegate {
             d.changeTrebleEQ(trebleEQ, sender: self)
         }
     }
 
-    @IBAction func changeSpeed(sender: AnyObject) {
+    @IBAction func changeSpeed(_ sender: AnyObject) {
         if let d = delegate {
             d.changePlaySpeed(playSpeed, sender: self)
         }
@@ -72,7 +72,7 @@ class TTUSimpleEQView: NSView {
 }
 
 protocol TTUSimpleEQViewDelegate: class {
-    func changeBassEQ(value: Float, sender: TTUSimpleEQView)
-    func changeTrebleEQ(value: Float, sender: TTUSimpleEQView)
-    func changePlaySpeed(value: Float, sender: TTUSimpleEQView)
+    func changeBassEQ(_ value: Float, sender: TTUSimpleEQView)
+    func changeTrebleEQ(_ value: Float, sender: TTUSimpleEQView)
+    func changePlaySpeed(_ value: Float, sender: TTUSimpleEQView)
 }
