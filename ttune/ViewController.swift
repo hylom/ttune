@@ -49,7 +49,8 @@ class ViewController: NSViewController {
 
         // prepare for Drag and Drop
         contentTableView.register(forDraggedTypes: [NSFilenamesPboardType])
-        
+        contentTableView.register(forDraggedTypes: ["private.table-row"])
+
         // add double-click handler
         contentTableView.doubleAction = #selector(ViewController.onTableViewDoubleClick)
         //contentTableView.doubleAction = #selector(onTableViewDoubleClick)
@@ -356,7 +357,26 @@ extension ViewController: NSTableViewDataSource {
             }
             return true
         }
+        
+        if (pboard.availableType(from: ["private.table-row"]) == "private.table-row") {
+            guard let strFrom = pboard.string(forType: "private.table-row") as String? else { return false }
+            guard let fromRow = Int(strFrom) else { return false }
+            
+            if (fromRow < row) {
+                contentTableView.moveRow(at: fromRow, to: row - 1)
+            } else {
+                contentTableView.moveRow(at: fromRow, to: row)
+            }
+            //print("dropped: \(fromRow)")
+            return true
+        }
         return false
+    }
+    
+    func tableView(_ tableView: NSTableView, pasteboardWriterForRow row: Int) -> NSPasteboardWriting? {
+        let item = NSPasteboardItem()
+        item.setString(String(row), forType: "private.table-row")
+        return item
     }
 }
 
