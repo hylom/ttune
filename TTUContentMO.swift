@@ -59,6 +59,7 @@ class TTUContentMO: NSManagedObject {
     @NSManaged var love: String
     @NSManaged var lyrics: String
     @NSManaged var onlineExtras: String
+    @NSManaged var order: Int32
     @NSManaged var originalArtist: String
     @NSManaged var path: String
     @NSManaged var performer: String

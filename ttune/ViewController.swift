@@ -42,7 +42,7 @@ class ViewController: NSViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        // Do any additional setup after loading the view."
 
         simpleEQView.delegate = self
         screenView.delegate = self
@@ -56,7 +56,7 @@ class ViewController: NSViewController {
         //contentTableView.doubleAction = #selector(onTableViewDoubleClick)
         
         // Update columns
-        for item in ["title", "volume", "album", "artist", "time"] {
+        for item in ["order", "title", "volume", "album", "artist", "time"] {
             if let title = contentTableRowDifinitions[item] {
                 let col = NSTableColumn(identifier: item)
                 col.title = title
@@ -65,6 +65,9 @@ class ViewController: NSViewController {
             }
             
         }
+        
+        // set sort order
+        contentTableViewController.sortDescriptors = [NSSortDescriptor(key: "order", ascending: true)]
 
         // Initialize timer
         timer = Timer.scheduledTimer(timeInterval: 0.5, target: self, selector: #selector(ViewController.updateTime), userInfo: nil, repeats: true)
@@ -331,14 +334,24 @@ extension ViewController: TTUSimpleEQViewDelegate {
 
 extension ViewController: NSTableViewDataSource {
     func tableView(_ tableView: NSTableView, validateDrop info: NSDraggingInfo, proposedRow row: Int, proposedDropOperation dropOperation: NSTableViewDropOperation) -> NSDragOperation {
+        let pboard = info.draggingPasteboard()
+        if (pboard.availableType(from: [NSFilenamesPboardType]) == NSFilenamesPboardType) {
+            return .copy
+        }
+        if (pboard.availableType(from: ["private.table-row"]) == "private.table-row") {
+            return .move
+        }
         return .copy
     }
-    
+  
     func tableView(_ tableView: NSTableView, acceptDrop info: NSDraggingInfo, row: Int, dropOperation: NSTableViewDropOperation) -> Bool {
         let pboard = info.draggingPasteboard()
         if (pboard.availableType(from: [NSFilenamesPboardType]) == NSFilenamesPboardType) {
             guard let files = pboard.propertyList(forType: NSFilenamesPboardType) as? [String] else { return false }
             guard let moc = contentTableViewController.managedObjectContext else { return false }
+
+            let items = contentTableViewController.arrangedObjects as! [TTUContentMO]
+            var n:Int32 = 0
             for path in files {
                 //print("drop: \(item)")
                 let url = URL(fileURLWithPath: path)
@@ -350,23 +363,49 @@ extension ViewController: NSTableViewDataSource {
                 let content = NSEntityDescription.insertNewObject(forEntityName: "Content", into: moc) as! TTUContentMO
                 content.path = path
                 content.setMetadataFrom(asset)
+                content.order = Int32(row) + n + 1
+                n = n + 1
 
                 if content.title == "" {
                     content.title = (path as NSString).lastPathComponent
                 }
             }
+            
+            var i = 0
+            for item in items {
+                i = i + 1
+                if (i < row) { continue }
+                item.order = item.order + n
+            }
+            contentTableViewController.rearrangeObjects()
             return true
         }
         
         if (pboard.availableType(from: ["private.table-row"]) == "private.table-row") {
             guard let strFrom = pboard.string(forType: "private.table-row") as String? else { return false }
             guard let fromRow = Int(strFrom) else { return false }
-            
+
+            // for reorder arraycontroller
+            var items = contentTableViewController.arrangedObjects as! [TTUContentMO]
+            let target = items[fromRow]
+
             if (fromRow < row) {
                 contentTableView.moveRow(at: fromRow, to: row - 1)
+                items.remove(at: fromRow)
+                items.insert(target, at: row - 1)
             } else {
                 contentTableView.moveRow(at: fromRow, to: row)
+                items.remove(at: fromRow)
+                items.insert(target, at: row)
             }
+
+            var n:Int32 = 1
+            for item in items {
+                item.order = n
+                n = n + 1
+            }
+            contentTableViewController.rearrangeObjects()
+
             //print("dropped: \(fromRow)")
             return true
         }

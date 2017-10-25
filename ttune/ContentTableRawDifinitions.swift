@@ -48,6 +48,7 @@ let contentTableRowDifinitions: Dictionary<String, String> = [
     "love": "",
     "lyrics": "",
     "onlineExtras": "",
+    "order": "order",
     "originalArtist": "",
     "path": "",
     "performer": "",
